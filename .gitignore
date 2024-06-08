@@ -10,6 +10,7 @@ build/
 .vscode
 .DS_Store
 .venv/
+.env
 
 # The following is related to Rust
 target/

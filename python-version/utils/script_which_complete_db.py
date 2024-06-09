@@ -23,7 +23,7 @@ def fetch_play_urls():
         cursor = connection.cursor()
 
         # Query to fetch play_url column values where shazam_url is null, limited to 5 entries
-        query = 'SELECT play_url FROM public.sounds_data_songsandsounds WHERE shazam_url IS NULL LIMIT 5'
+        query = 'SELECT play_url FROM public.sounds_data_songsandsounds WHERE shazam_url IS NULL LIMIT 10'
         cursor.execute(query)
 
         # Fetch all rows

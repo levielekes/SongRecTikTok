@@ -3,6 +3,7 @@
 import os
 import sys
 import json
+import time
 from numpy import array as nparray, sin, pi, arange, concatenate
 from os.path import dirname, realpath, join
 from argparse import ArgumentParser
@@ -67,6 +68,9 @@ def main():
             file_path, result = process_audio_file(file_path)
             all_results.append({"file": file_path, "result": result})
 
+            # Sleep for 3 seconds to avoid rate limit
+            time.sleep(3)
+
     json_output_path = join(SCRIPT_DIR, 'shazam_api_response.json')
     with open(json_output_path, 'w') as json_file:
         json.dump(all_results, json_file, indent=4, ensure_ascii=False)
@@ -75,3 +79,5 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+#justtocommit

@@ -1,6 +1,7 @@
 import os
 import psycopg2
 import requests
+import json
 from dotenv import load_dotenv
 
 # Load environment variables from .env file
@@ -16,6 +17,7 @@ DOWNLOAD_DIR = os.path.join(os.getcwd(), 'python-version/sounds')
 os.makedirs(DOWNLOAD_DIR, exist_ok=True)
 
 def fetch_play_urls():
+    download_results = []
     try:
         # Connect to the PostgreSQL database using the DATABASE_URL
         connection = psycopg2.connect(DATABASE_URL)
@@ -34,6 +36,7 @@ def fetch_play_urls():
 
         # Download each file and save it to the directory
         for url in play_urls:
+            result = {"url": url, "status": "success"}
             try:
                 # Get the file name from the URL
                 file_name = os.path.basename(url)
@@ -47,10 +50,12 @@ def fetch_play_urls():
                 with open(file_path, 'wb') as file:
                     file.write(response.content)
 
-                print(f"Downloaded and saved: {file_path}")
-
+                result["file_path"] = file_path
             except Exception as download_error:
-                print(f"Error downloading {url}: {download_error}")
+                result["status"] = "error"
+                result["error_message"] = str(download_error)
+            finally:
+                download_results.append(result)
 
     except Exception as error:
         print(f"Error fetching data: {error}")
@@ -58,6 +63,11 @@ def fetch_play_urls():
         if connection:
             cursor.close()
             connection.close()
+
+    # Save results to a JSON file
+    json_file_path = os.path.join(os.getcwd(), 'download_results.json')
+    with open(json_file_path, 'w') as json_file:
+        json.dump(download_results, json_file, indent=4)
 
 if __name__ == "__main__":
     fetch_play_urls()

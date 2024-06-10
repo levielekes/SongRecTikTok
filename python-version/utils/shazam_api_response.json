@@ -40,16 +40,16 @@
                     "frequencyskew": -0.025356114
                 },
                 {
-                    "id": "631889312",
-                    "offset": 10.493273437,
-                    "timeskew": -0.021666825,
-                    "frequencyskew": -0.026061952
-                },
-                {
                     "id": "457749231",
                     "offset": 452.2189375,
                     "timeskew": -0.021012604,
                     "frequencyskew": -0.03054601
+                },
+                {
+                    "id": "631889312",
+                    "offset": 10.489883789,
+                    "timeskew": -0.0212453,
+                    "frequencyskew": -0.025797248
                 },
                 {
                     "id": "631889312",
@@ -77,12 +77,12 @@
                 }
             ],
             "location": {
-                "latitude": 14.97,
-                "longitude": -131.72,
-                "altitude": 382.76,
+                "latitude": 13.66,
+                "longitude": -133.04,
+                "altitude": 381.45,
                 "accuracy": 0.01
             },
-            "timestamp": 1717964615441,
+            "timestamp": 1718009346222,
             "timezone": "Europe/Astrakhan",
             "track": {
                 "layout": "5",
@@ -284,7 +284,7 @@
                 "altitude": 383.18,
                 "accuracy": 0.01
             },
-            "timestamp": 1717964618474,
+            "timestamp": 1718009352107,
             "timezone": "Europe/Astrakhan",
             "track": {
                 "layout": "5",

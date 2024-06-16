@@ -11,36 +11,35 @@ def analyse_shazam_api_response_json():
     # Iterate through each item in the JSON data
     for item in data:
         file_path = item.get("file", "")
-        filename = file_path.split('/')[-1].split('.')[0]
+        sound_id = file_path.split('/')[-1].split('.')[0]
 
         result = item.get("result", {})
         track_info = result.get("track", {})
         share_info = track_info.get("share", {})
         images_info = track_info.get("images", {})
-        sections_info = track_info.get("sections", [])
         
         # Extract the values as specified
-        isrc = track_info.get("isrc", "N/A")
-        background_image = images_info.get("background", "N/A")
-        subject = share_info.get("subject", "N/A")
-        text = share_info.get("text", "N/A")
+        shazam_isrc = track_info.get("isrc", "N/A")
+        shazam_image_url = images_info.get("background", "N/A")
+        shazam_song_name = share_info.get("subject", "N/A")
+        shazam_url = share_info.get("href", "N/A")
         
         # Append the extracted values to the results list
         results.append({
-            "filename": filename,
-            "isrc": isrc,
-            "background_image": background_image,
-            "subject": subject,
-            "text": text
+            "sound_id": sound_id,
+            "shazam_isrc": shazam_isrc,
+            "shazam_image_url": shazam_image_url,
+            "shazam_song_name": shazam_song_name,
+            "shazam_url": shazam_url
         })
     
     # Print the results
     for result in results:
-        print(f"Filename: {result['filename']}")
-        print(f"ISRC: {result['isrc']}")
-        print(f"Background Image: {result['background_image']}")
-        print(f"Subject: {result['subject']}")
-        print(f"Text: {result['text']}")
+        print(f"sound_id: {result['sound_id']}")
+        print(f"shazam_isrc: {result['shazam_isrc']}")
+        print(f"shazam_image_url: {result['shazam_image_url']}")
+        print(f"shazam_song_name: {result['shazam_song_name']}")
+        print(f"shazam_url: {result['shazam_url']}")
         print("\n")
 
 if __name__ == "__main__":

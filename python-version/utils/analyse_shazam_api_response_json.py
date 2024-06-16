@@ -79,12 +79,25 @@ def update_songs_and_sounds(data):
     except Exception as e:
         print(f"Error: {e}")
 
+def clean_sounds_directory(directory_path):
+    try:
+        for filename in os.listdir(directory_path):
+            file_path = os.path.join(directory_path, filename)
+            if os.path.isfile(file_path):
+                os.unlink(file_path)
+        print(f"Cleaned all files in directory: {directory_path}")
+    except Exception as e:
+        print(f"Error while cleaning directory: {e}")
+
 def analyse_shazam_api_response_json():
     # Load the JSON data from the file
     with open('/repos/SongRecTikTok/python-version/utils/shazam_api_response.json', 'r') as file:
         data = json.load(file)
     
     update_songs_and_sounds(data)
+
+    # Clean the sounds directory
+    clean_sounds_directory('/repos/SongRecTikTok/python-version/sounds')
 
 if __name__ == "__main__":
     analyse_shazam_api_response_json()

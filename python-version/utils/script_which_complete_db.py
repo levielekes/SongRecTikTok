@@ -24,26 +24,24 @@ def fetch_tiktok_play_urls():
         
         cursor = connection.cursor()
 
-        # Query to fetch tiktok_play_url column values where shazam_url is null, limited to 5 entries
-        query = 'SELECT tiktok_play_url FROM public.sounds_data_songsandsounds WHERE shazam_url IS NULL LIMIT 10'
+        # Query to fetch tiktok_play_url and sound_id column values where shazam_url is null, limited to 10 entries
+        query = 'SELECT tiktok_play_url, sound_id FROM public.sounds_data_songsandsounds WHERE shazam_url IS NULL LIMIT 10'
         cursor.execute(query)
 
         # Fetch all rows
         rows = cursor.fetchall()
 
-        # Extract tiktok_play_url values
-        tiktok_play_urls = [row[0] for row in rows]
-
         # Download each file and save it to the directory
-        for url in tiktok_play_urls:
-            result = {"url": url, "status": "success"}
+        for row in rows:
+            tiktok_play_url, sound_id = row
+            result = {"url": tiktok_play_url, "status": "success"}
             try:
-                # Get the file name from the URL
-                file_name = os.path.basename(url)
+                # Use sound_id as the file name
+                file_name = f"{sound_id}.mp3"
                 file_path = os.path.join(DOWNLOAD_DIR, file_name)
 
                 # Download the file
-                response = requests.get(url)
+                response = requests.get(tiktok_play_url)
                 response.raise_for_status()
 
                 # Save the file to the specified directory

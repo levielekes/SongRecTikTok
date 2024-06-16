@@ -31,8 +31,8 @@ def fetch_tiktok_play_urls():
         # Fetch all rows
         rows = cursor.fetchall()
 
-        # Extract play_url values
-        play_urls = [row[0] for row in rows]
+        # Extract tiktok_play_url values
+        tiktok_play_urls = [row[0] for row in rows]
 
         # Download each file and save it to the directory
         for url in tiktok_play_urls:

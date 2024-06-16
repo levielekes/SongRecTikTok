@@ -1,46 +1,90 @@
 import json
+import psycopg2
+from psycopg2 import sql
+from dotenv import load_dotenv
+import os
+
+# Load environment variables from .env file
+load_dotenv()
+
+# Get database URL from environment variables
+DATABASE_URL = os.getenv('DATABASE_URL')
+
+def update_songs_and_sounds(data):
+    try:
+        # Connect to your postgres DB
+        conn = psycopg2.connect(DATABASE_URL)
+        # Create a cursor object
+        cursor = conn.cursor()
+
+        for item in data:
+            file_path = item.get("file", "")
+            sound_id = file_path.split('/')[-1].split('.')[0]
+
+            result = item.get("result", {})
+            track_info = result.get("track", {})
+            share_info = track_info.get("share", {})
+            images_info = track_info.get("images", {})
+            
+            # Extract the values as specified
+            shazam_isrc = track_info.get("isrc", None)
+            shazam_photo_url = images_info.get("background", None)
+            shazam_song_name = share_info.get("subject", None)
+            shazam_track_url = share_info.get("href", None)
+
+            # Create a dictionary for the columns to update
+            update_data = {
+                "shazam_isrc": shazam_isrc if shazam_isrc not in [None, "N/A"] else None,
+                "shazam_image_url": shazam_photo_url if shazam_photo_url not in [None, "N/A"] else None,
+                "shazam_song_name": shazam_song_name if shazam_song_name not in [None, "N/A"] else None,
+                "shazam_url": shazam_track_url if shazam_track_url not in [None, "N/A"] else None
+            }
+
+            # Filter out keys with None values
+            update_data = {key: value for key, value in update_data.items() if value is not None}
+
+            if update_data:
+                set_clause = ", ".join([f"{key} = %s" for key in update_data.keys()])
+                query = f"UPDATE public.sounds_data_songsandsounds SET {set_clause} WHERE sound_id = %s"
+                cursor.execute(query, list(update_data.values()) + [sound_id])
+
+        # Commit the changes
+        conn.commit()
+
+        # Print updated records
+        for item in data:
+            file_path = item.get("file", "")
+            sound_id = file_path.split('/')[-1].split('.')[0]
+
+            select_query = sql.SQL("""
+                SELECT sound_id, shazam_isrc, shazam_image_url, shazam_song_name, shazam_url
+                FROM public.sounds_data_songsandsounds
+                WHERE sound_id = %s
+            """)
+            cursor.execute(select_query, (sound_id,))
+            record = cursor.fetchone()
+            if record:
+                print(f"Updated record for sound_id: {sound_id}")
+                print(f"  shazam_isrc: {record[1]}")
+                print(f"  shazam_image_url: {record[2]}")
+                print(f"  shazam_song_name: {record[3]}")
+                print(f"  shazam_url: {record[4]}")
+                print("\n")
+
+        # Close the cursor and connection
+        cursor.close()
+        conn.close()
+        print("Database updated successfully.")
+
+    except Exception as e:
+        print(f"Error: {e}")
 
 def analyse_shazam_api_response_json():
     # Load the JSON data from the file
     with open('/repos/SongRecTikTok/python-version/utils/shazam_api_response.json', 'r') as file:
         data = json.load(file)
     
-    # Initialize a list to store the results
-    results = []
-
-    # Iterate through each item in the JSON data
-    for item in data:
-        file_path = item.get("file", "")
-        sound_id = file_path.split('/')[-1].split('.')[0]
-
-        result = item.get("result", {})
-        track_info = result.get("track", {})
-        share_info = track_info.get("share", {})
-        images_info = track_info.get("images", {})
-        
-        # Extract the values as specified
-        shazam_isrc = track_info.get("isrc", "N/A")
-        shazam_image_url = images_info.get("background", "N/A")
-        shazam_song_name = share_info.get("subject", "N/A")
-        shazam_url = share_info.get("href", "N/A")
-        
-        # Append the extracted values to the results list
-        results.append({
-            "sound_id": sound_id,
-            "shazam_isrc": shazam_isrc,
-            "shazam_image_url": shazam_image_url,
-            "shazam_song_name": shazam_song_name,
-            "shazam_url": shazam_url
-        })
-    
-    # Print the results
-    for result in results:
-        print(f"sound_id: {result['sound_id']}")
-        print(f"shazam_isrc: {result['shazam_isrc']}")
-        print(f"shazam_image_url: {result['shazam_image_url']}")
-        print(f"shazam_song_name: {result['shazam_song_name']}")
-        print(f"shazam_url: {result['shazam_url']}")
-        print("\n")
+    update_songs_and_sounds(data)
 
 if __name__ == "__main__":
     analyse_shazam_api_response_json()

@@ -68,8 +68,8 @@ def main():
             file_path, result = process_audio_file(file_path)
             all_results.append({"file": file_path, "result": result})
 
-            # Sleep for 3 seconds to avoid rate limit
-            time.sleep(3)
+            # Sleep for 15 seconds to avoid rate limit
+            time.sleep(15)
 
     json_output_path = join(SCRIPT_DIR, 'shazam_api_response.json')
     with open(json_output_path, 'w') as json_file:

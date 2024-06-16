@@ -36,8 +36,13 @@ def fetch_tiktok_play_urls():
             tiktok_play_url, sound_id = row
             result = {"url": tiktok_play_url, "status": "success"}
             try:
-                # Use sound_id as the file name
-                file_name = f"{sound_id}.mp3"
+                # Determine the file name based on the URL and sound_id
+                if tiktok_play_url.endswith('.mp3'):
+                    file_name = f"{sound_id}.mp3"
+                else:
+                    file_extension = os.path.splitext(tiktok_play_url)[1]
+                    file_name = f"{sound_id}{file_extension}"
+                
                 file_path = os.path.join(DOWNLOAD_DIR, file_name)
 
                 # Download the file
@@ -49,9 +54,13 @@ def fetch_tiktok_play_urls():
                     file.write(response.content)
 
                 result["file_path"] = file_path
+
+                # Print the tiktok_play_url to the terminal
+                print(f"Downloaded: {tiktok_play_url}")
             except Exception as download_error:
                 result["status"] = "error"
                 result["error_message"] = str(download_error)
+                print(f"Error downloading {tiktok_play_url}: {download_error}")
             finally:
                 download_results.append(result)
 

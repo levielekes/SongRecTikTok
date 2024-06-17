@@ -1,9 +1,12 @@
 import os
 from pydub import AudioSegment
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Define source and destination directories
-source_dir = '/repos/SongRecTikTok/python-version/sounds'
-destination_dir = '/repos/SongRecTikTok/python-version/sounds'
+source_dir = os.getenv('SOURCE_DIR')
+destination_dir = os.getenv('DESTINATION_DIR')
 
 # Ensure the destination directory exists
 os.makedirs(destination_dir, exist_ok=True)

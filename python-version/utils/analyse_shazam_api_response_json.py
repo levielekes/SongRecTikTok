@@ -19,7 +19,7 @@ def update_songs_and_sounds(data):
 
         for item in data:
             file_path = item.get("file", "")
-            sound_id = file_path.split('/')[-1].split('.')[0]
+            sound_id = os.path.splitext(os.path.basename(file_path))[0]
 
             result = item.get("result", {})
             track_info = result.get("track", {})
@@ -54,7 +54,7 @@ def update_songs_and_sounds(data):
         # Print updated records
         for item in data:
             file_path = item.get("file", "")
-            sound_id = file_path.split('/')[-1].split('.')[0]
+            sound_id = os.path.splitext(os.path.basename(file_path))[0]
 
             select_query = sql.SQL("""
                 SELECT sound_id, shazam_isrc, shazam_image_url, shazam_song_name, shazam_url
@@ -90,8 +90,9 @@ def clean_sounds_directory(directory_path):
         print(f"Error while cleaning directory: {e}")
 
 def analyse_shazam_api_response_json():
-    # Load the JSON data from the file
-    with open(os.getenv('SHAZAM_API_RESPONSE_PATH'), 'r') as file:
+    # Load the JSON data from the file with UTF-8 encoding
+    shazam_api_response_path = os.getenv('SHAZAM_API_RESPONSE_PATH')
+    with open(shazam_api_response_path, 'r', encoding='utf-8') as file:
         data = json.load(file)
     
     update_songs_and_sounds(data)

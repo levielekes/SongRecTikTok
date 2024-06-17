@@ -91,13 +91,13 @@ def clean_sounds_directory(directory_path):
 
 def analyse_shazam_api_response_json():
     # Load the JSON data from the file
-    with open('/repos/SongRecTikTok/python-version/utils/shazam_api_response.json', 'r') as file:
+    with open(os.getenv('SHAZAM_API_RESPONSE_PATH'), 'r') as file:
         data = json.load(file)
     
     update_songs_and_sounds(data)
 
     # Clean the sounds directory
-    clean_sounds_directory('/repos/SongRecTikTok/python-version/sounds')
+    clean_sounds_directory(os.getenv('SOUNDS_DIR'))
 
 if __name__ == "__main__":
     analyse_shazam_api_response_json()

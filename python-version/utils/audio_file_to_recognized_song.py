@@ -72,7 +72,7 @@ def main():
             time.sleep(15)
 
     json_output_path = join(SCRIPT_DIR, 'shazam_api_response.json')
-    with open(json_output_path, 'w') as json_file:
+    with open(json_output_path, 'w', encoding='utf-8') as json_file:
         json.dump(all_results, json_file, indent=4, ensure_ascii=False)
 
     print(f"All results have been saved to {json_output_path}")

@@ -3,6 +3,7 @@ import psycopg2
 from psycopg2 import sql
 from dotenv import load_dotenv
 import os
+from datetime import datetime
 
 # Load environment variables from .env file
 load_dotenv()
@@ -25,23 +26,30 @@ def update_songs_and_sounds(data):
             track_info = result.get("track", {})
             share_info = track_info.get("share", {})
             images_info = track_info.get("images", {})
-            
+
             # Extract the values as specified
             shazam_isrc = track_info.get("isrc", None)
             shazam_photo_url = images_info.get("background", None)
             shazam_song_name = share_info.get("subject", None)
             shazam_track_url = share_info.get("href", None)
 
+            # Check if any of the required fields are missing
+            missing_data = not all([shazam_isrc, shazam_photo_url, shazam_song_name, shazam_track_url])
+
             # Create a dictionary for the columns to update
             update_data = {
                 "shazam_isrc": shazam_isrc if shazam_isrc not in [None, "N/A"] else None,
                 "shazam_image_url": shazam_photo_url if shazam_photo_url not in [None, "N/A"] else None,
                 "shazam_song_name": shazam_song_name if shazam_song_name not in [None, "N/A"] else None,
-                "shazam_url": shazam_track_url if shazam_track_url not in [None, "N/A"] else None
+                "shazam_url": shazam_track_url if shazam_track_url not in [None, "N/A"] else None,
             }
 
             # Filter out keys with None values
             update_data = {key: value for key, value in update_data.items() if value is not None}
+
+            # Add the shazam_last_checked_sounds_with_no_data field if necessary
+            if missing_data:
+                update_data["shazam_last_checked_sounds_with_no_data"] = datetime.now()
 
             if update_data:
                 set_clause = ", ".join([f"{key} = %s" for key in update_data.keys()])

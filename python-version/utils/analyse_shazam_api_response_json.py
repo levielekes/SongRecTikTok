@@ -20,7 +20,7 @@ def update_songs_and_sounds(data):
 
         for item in data:
             file_path = item.get("file", "")
-            sound_id = os.path.splitext(os.path.basename(file_path))[0]
+            tiktok_sound_id = os.path.splitext(os.path.basename(file_path))[0]
 
             result = item.get("result", {})
             track_info = result.get("track", {})
@@ -53,8 +53,8 @@ def update_songs_and_sounds(data):
 
             if update_data:
                 set_clause = ", ".join([f"{key} = %s" for key in update_data.keys()])
-                query = f"UPDATE public.sounds_data_songsandsounds SET {set_clause} WHERE sound_id = %s"
-                cursor.execute(query, list(update_data.values()) + [sound_id])
+                query = f"UPDATE public.sounds_data_songsandsounds SET {set_clause} WHERE tiktok_sound_id = %s"
+                cursor.execute(query, list(update_data.values()) + [tiktok_sound_id])
 
         # Commit the changes
         conn.commit()
@@ -62,17 +62,17 @@ def update_songs_and_sounds(data):
         # Print updated records
         for item in data:
             file_path = item.get("file", "")
-            sound_id = os.path.splitext(os.path.basename(file_path))[0]
+            tiktok_sound_id = os.path.splitext(os.path.basename(file_path))[0]
 
             select_query = sql.SQL("""
-                SELECT sound_id, shazam_isrc, shazam_image_url, shazam_song_name, shazam_url
+                SELECT tiktok_sound_id, shazam_isrc, shazam_image_url, shazam_song_name, shazam_url
                 FROM public.sounds_data_songsandsounds
-                WHERE sound_id = %s
+                WHERE tiktok_sound_id = %s
             """)
-            cursor.execute(select_query, (sound_id,))
+            cursor.execute(select_query, (tiktok_sound_id,))
             record = cursor.fetchone()
             if record:
-                print(f"Updated record for sound_id: {sound_id}")
+                print(f"Updated record for tiktok_sound_id: {tiktok_sound_id}")
                 print(f"  shazam_isrc: {record[1]}")
                 print(f"  shazam_image_url: {record[2]}")
                 print(f"  shazam_song_name: {record[3]}")

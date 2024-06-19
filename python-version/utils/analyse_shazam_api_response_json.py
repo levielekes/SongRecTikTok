@@ -53,7 +53,7 @@ def update_songs_and_sounds(data):
 
             if update_data:
                 set_clause = ", ".join([f"{key} = %s" for key in update_data.keys()])
-                query = f"UPDATE public.sounds_data_songsandsounds SET {set_clause} WHERE tiktok_sound_id = %s"
+                query = f"UPDATE public.sounds_data_tiktoksounds SET {set_clause} WHERE tiktok_sound_id = %s"
                 cursor.execute(query, list(update_data.values()) + [tiktok_sound_id])
 
         # Commit the changes
@@ -66,7 +66,7 @@ def update_songs_and_sounds(data):
 
             select_query = sql.SQL("""
                 SELECT tiktok_sound_id, shazam_isrc, shazam_image_url, shazam_song_name, shazam_url
-                FROM public.sounds_data_songsandsounds
+                FROM public.sounds_data_tiktoksounds
                 WHERE tiktok_sound_id = %s
             """)
             cursor.execute(select_query, (tiktok_sound_id,))

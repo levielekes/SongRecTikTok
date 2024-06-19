@@ -47,9 +47,9 @@ def update_songs_and_sounds(data):
             # Filter out keys with None values
             update_data = {key: value for key, value in update_data.items() if value is not None}
 
-            # Add the shazam_last_checked_sounds_with_no_data field if necessary
+            # Add the tiktok_sound_last_checked_by_shazam_with_no_result field if necessary
             if missing_data:
-                update_data["shazam_last_checked_sounds_with_no_data"] = datetime.now()
+                update_data["tiktok_sound_last_checked_by_shazam_with_no_result"] = datetime.now()
 
             if update_data:
                 set_clause = ", ".join([f"{key} = %s" for key in update_data.keys()])

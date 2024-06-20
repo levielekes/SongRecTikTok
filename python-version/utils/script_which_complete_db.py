@@ -24,8 +24,14 @@ def fetch_tiktok_play_urls():
         
         cursor = connection.cursor()
 
-        # Query to fetch tiktok_play_url and tiktok_sound_id column values where shazam_url is null
-        query = 'SELECT tiktok_play_url, tiktok_sound_id FROM public.sounds_data_tiktoksounds WHERE shazam_url IS NULL'
+        # Query to fetch tiktok_play_url and tiktok_sound_id column values where shazam_sound_id is null
+        query = '''
+        SELECT tiktok_play_url, tiktok_sound_id 
+        FROM public.sounds_data_tiktoksounds 
+        LEFT JOIN public.sounds_data_shazamsounds ON public.sounds_data_tiktoksounds.tiktok_sound_id = public.sounds_data_shazamsounds.shazam_sound_id 
+        WHERE shazam_sound_id IS NULL 
+        LIMIT 15
+        '''
         cursor.execute(query)
 
         # Fetch all rows

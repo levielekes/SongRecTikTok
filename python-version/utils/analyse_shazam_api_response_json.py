@@ -4,12 +4,17 @@ from psycopg2 import sql
 from dotenv import load_dotenv
 import os
 from datetime import datetime
+import re
 
 # Load environment variables from .env file
 load_dotenv()
 
 # Get database URL from environment variables
 DATABASE_URL = os.getenv('DATABASE_URL')
+
+def extract_shazam_sound_id(url):
+    match = re.search(r'track/(\d+)', url)
+    return match.group(1) if match else None
 
 def update_shazam_info(data):
     try:
@@ -32,14 +37,17 @@ def update_shazam_info(data):
             shazam_name_of_sound = share_info.get("subject", None)
             shazam_track_url = share_info.get("href", None)
 
+            # Extract Shazam sound ID from the URL
+            shazam_sound_id = extract_shazam_sound_id(shazam_track_url) if shazam_track_url else None
+
             # Check if any of the required fields are missing
-            missing_data = not all([shazam_image_url, shazam_name_of_sound, shazam_track_url])
+            missing_data = not all([shazam_image_url, shazam_name_of_sound, shazam_sound_id])
 
             # Create a dictionary for the columns to update
             update_data = {
                 "shazam_image_url": shazam_image_url if shazam_image_url not in [None, "N/A"] else None,
                 "shazam_name_of_sound": shazam_name_of_sound if shazam_name_of_sound not in [None, "N/A"] else None,
-                "shazam_url": shazam_track_url if shazam_track_url not in [None, "N/A"] else None,
+                "shazam_sound_id": shazam_sound_id if shazam_sound_id not in [None, "N/A"] else None,
             }
 
             # Filter out keys with None values
@@ -63,7 +71,7 @@ def update_shazam_info(data):
             tiktok_sound_id = os.path.splitext(os.path.basename(file_path))[0]
 
             select_query = sql.SQL("""
-                SELECT tiktok_sound_id, shazam_image_url, shazam_name_of_sound, shazam_url
+                SELECT tiktok_sound_id, shazam_image_url, shazam_name_of_sound, shazam_sound_id
                 FROM public.sounds_data_tiktoksounds
                 WHERE tiktok_sound_id = %s
             """)
@@ -73,7 +81,7 @@ def update_shazam_info(data):
                 print(f"Updated record for tiktok_sound_id: {tiktok_sound_id}")
                 print(f"  shazam_image_url: {record[1]}")
                 print(f"  shazam_name_of_sound: {record[2]}")
-                print(f"  shazam_url: {record[3]}")
+                print(f"  shazam_sound_id: {record[3]}")
                 print("\n")
 
         # Close the cursor and connection

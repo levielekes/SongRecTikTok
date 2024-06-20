@@ -28,17 +28,15 @@ def update_songs_and_sounds(data):
             images_info = track_info.get("images", {})
 
             # Extract the values as specified
-            shazam_isrc = track_info.get("isrc", None)
             shazam_photo_url = images_info.get("background", None)
             shazam_song_name = share_info.get("subject", None)
             shazam_track_url = share_info.get("href", None)
 
             # Check if any of the required fields are missing
-            missing_data = not all([shazam_isrc, shazam_photo_url, shazam_song_name, shazam_track_url])
+            missing_data = not all([shazam_photo_url, shazam_song_name, shazam_track_url])
 
             # Create a dictionary for the columns to update
             update_data = {
-                "shazam_isrc": shazam_isrc if shazam_isrc not in [None, "N/A"] else None,
                 "shazam_image_url": shazam_photo_url if shazam_photo_url not in [None, "N/A"] else None,
                 "shazam_song_name": shazam_song_name if shazam_song_name not in [None, "N/A"] else None,
                 "shazam_url": shazam_track_url if shazam_track_url not in [None, "N/A"] else None,
@@ -65,7 +63,7 @@ def update_songs_and_sounds(data):
             tiktok_sound_id = os.path.splitext(os.path.basename(file_path))[0]
 
             select_query = sql.SQL("""
-                SELECT tiktok_sound_id, shazam_isrc, shazam_image_url, shazam_song_name, shazam_url
+                SELECT tiktok_sound_id, shazam_image_url, shazam_song_name, shazam_url
                 FROM public.sounds_data_tiktoksounds
                 WHERE tiktok_sound_id = %s
             """)
@@ -73,10 +71,9 @@ def update_songs_and_sounds(data):
             record = cursor.fetchone()
             if record:
                 print(f"Updated record for tiktok_sound_id: {tiktok_sound_id}")
-                print(f"  shazam_isrc: {record[1]}")
-                print(f"  shazam_image_url: {record[2]}")
-                print(f"  shazam_song_name: {record[3]}")
-                print(f"  shazam_url: {record[4]}")
+                print(f"  shazam_image_url: {record[1]}")
+                print(f"  shazam_song_name: {record[2]}")
+                print(f"  shazam_url: {record[3]}")
                 print("\n")
 
         # Close the cursor and connection

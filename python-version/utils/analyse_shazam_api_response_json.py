@@ -3,7 +3,6 @@ import psycopg2
 from psycopg2 import sql
 from dotenv import load_dotenv
 import os
-from datetime import datetime
 import re
 
 # Load environment variables from .env file
@@ -18,7 +17,7 @@ def extract_shazam_sound_id(url):
 
 def update_shazam_info(data):
     try:
-        # Connect to your postgres DB
+        # Connect to postgres DB
         conn = psycopg2.connect(DATABASE_URL)
         # Create a cursor object
         cursor = conn.cursor()
@@ -40,27 +39,35 @@ def update_shazam_info(data):
             # Extract Shazam sound ID from the URL
             shazam_sound_id = extract_shazam_sound_id(shazam_track_url) if shazam_track_url else None
 
+            # Debug print statements
+            print(f"file_path: {file_path}")
+            print(f"tiktok_sound_id: {tiktok_sound_id}")
+            print(f"shazam_image_url: {shazam_image_url}")
+            print(f"shazam_name_of_sound: {shazam_name_of_sound}")
+            print(f"shazam_track_url: {shazam_track_url}")
+            print(f"shazam_sound_id: {shazam_sound_id}")
+
             # Check if any of the required fields are missing
-            missing_data = not all([shazam_image_url, shazam_name_of_sound, shazam_sound_id])
+            if not all([shazam_image_url, shazam_name_of_sound, shazam_sound_id]):
+                print("Missing required Shazam data, skipping insert.")
+                continue
 
-            # Create a dictionary for the columns to update
-            update_data = {
-                "shazam_image_url": shazam_image_url if shazam_image_url not in [None, "N/A"] else None,
-                "shazam_name_of_sound": shazam_name_of_sound if shazam_name_of_sound not in [None, "N/A"] else None,
-                "shazam_sound_id": shazam_sound_id if shazam_sound_id not in [None, "N/A"] else None,
-            }
+            # Insert into public.sounds_data_shazamsounds
+            insert_query = """
+                INSERT INTO public.sounds_data_shazamsounds (shazam_image_url, shazam_name_of_sound, shazam_sound_id)
+                VALUES (%s, %s, %s)
+                RETURNING id;
+            """
+            cursor.execute(insert_query, (shazam_image_url, shazam_name_of_sound, shazam_sound_id))
+            shazamsounds_id = cursor.fetchone()[0]
 
-            # Filter out keys with None values
-            update_data = {key: value for key, value in update_data.items() if value is not None}
-
-            # Add the tiktok_sound_last_checked_by_shazam_with_no_result field if necessary
-            if missing_data:
-                update_data["tiktok_sound_last_checked_by_shazam_with_no_result"] = datetime.now()
-
-            if update_data:
-                set_clause = ", ".join([f"{key} = %s" for key in update_data.keys()])
-                query = f"UPDATE public.sounds_data_tiktoksounds SET {set_clause} WHERE tiktok_sound_id = %s"
-                cursor.execute(query, list(update_data.values()) + [tiktok_sound_id])
+            # Update public.sounds_data_tiktoksounds
+            update_query = """
+                UPDATE public.sounds_data_tiktoksounds
+                SET shazamsounds_id = %s
+                WHERE tiktok_sound_id = %s;
+            """
+            cursor.execute(update_query, (shazamsounds_id, tiktok_sound_id))
 
         # Commit the changes
         conn.commit()
@@ -71,7 +78,7 @@ def update_shazam_info(data):
             tiktok_sound_id = os.path.splitext(os.path.basename(file_path))[0]
 
             select_query = sql.SQL("""
-                SELECT tiktok_sound_id, shazam_image_url, shazam_name_of_sound, shazam_sound_id
+                SELECT tiktok_sound_id, shazamsounds_id
                 FROM public.sounds_data_tiktoksounds
                 WHERE tiktok_sound_id = %s
             """)
@@ -79,9 +86,7 @@ def update_shazam_info(data):
             record = cursor.fetchone()
             if record:
                 print(f"Updated record for tiktok_sound_id: {tiktok_sound_id}")
-                print(f"  shazam_image_url: {record[1]}")
-                print(f"  shazam_name_of_sound: {record[2]}")
-                print(f"  shazam_sound_id: {record[3]}")
+                print(f"  shazamsounds_id: {record[1]}")
                 print("\n")
 
         # Close the cursor and connection

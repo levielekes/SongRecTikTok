@@ -11,7 +11,7 @@ load_dotenv()
 # Get database URL from environment variables
 DATABASE_URL = os.getenv('DATABASE_URL')
 
-def update_songs_and_sounds(data):
+def update_shazam_info(data):
     try:
         # Connect to your postgres DB
         conn = psycopg2.connect(DATABASE_URL)
@@ -100,7 +100,7 @@ def analyse_shazam_api_response_json():
     with open(shazam_api_response_path, 'r', encoding='utf-8') as file:
         data = json.load(file)
     
-    update_songs_and_sounds(data)
+    update_shazam_info(data)
 
     # Clean the sounds directory
     clean_sounds_directory(os.getenv('SOUNDS_DIR'))

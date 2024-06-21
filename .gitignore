@@ -28,3 +28,7 @@ stage/
 parts/
 prime/
 *.snap
+
+# The following is related to Shazam API response
+python-version/utils/shazam_api_response.json
+/repos/SongRecTikTok/python-version/utils/shazam_api_response.json

@@ -13,7 +13,7 @@ load_dotenv()
 DATABASE_URL = os.getenv('DATABASE_URL')
 
 def extract_shazam_sound_id(url):
-    match = re.search(r'track/(\d+)', url)
+    match = re.search(r'(?:track|song)/(\d+)', url)
     return match.group(1) if match else None
 
 def update_shazam_info(data):

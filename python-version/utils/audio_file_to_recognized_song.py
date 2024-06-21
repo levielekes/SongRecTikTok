@@ -59,6 +59,12 @@ def process_audio_file(file_path):
         return file_path, {"error": str(e)}
 
 def main():
+    json_output_path = join(SCRIPT_DIR, 'shazam_api_response.json')
+    
+    # Clean the JSON file by opening it in write mode and closing it immediately
+    with open(json_output_path, 'w', encoding='utf-8') as json_file:
+        pass
+    
     all_results = []
 
     for file_name in os.listdir(SOUNDS_DIR):
@@ -71,7 +77,6 @@ def main():
             # Sleep for 15 seconds to avoid rate limit
             time.sleep(15)
 
-    json_output_path = join(SCRIPT_DIR, 'shazam_api_response.json')
     with open(json_output_path, 'w', encoding='utf-8') as json_file:
         json.dump(all_results, json_file, indent=4, ensure_ascii=False)
 

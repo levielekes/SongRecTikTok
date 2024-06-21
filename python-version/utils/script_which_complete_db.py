@@ -30,7 +30,6 @@ def fetch_tiktok_play_urls():
         FROM public.sounds_data_tiktoksounds 
         LEFT JOIN public.sounds_data_shazamsounds ON public.sounds_data_tiktoksounds.tiktok_sound_id = public.sounds_data_shazamsounds.shazam_sound_id 
         WHERE shazam_sound_id IS NULL 
-        LIMIT 50;
         '''
         cursor.execute(query)
 

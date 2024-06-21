@@ -4,6 +4,7 @@ from psycopg2 import sql
 from dotenv import load_dotenv
 import os
 import re
+from datetime import datetime
 
 # Load environment variables from .env file
 load_dotenv()
@@ -50,24 +51,48 @@ def update_shazam_info(data):
             # Check if any of the required fields are missing
             if not all([shazam_image_url, shazam_name_of_sound, shazam_sound_id]):
                 print("Missing required Shazam data, skipping insert.")
+                
+                # Update tiktok_sound_last_checked_by_shazam_with_no_result if shazamsounds_id is None
+                update_query_no_result = """
+                    UPDATE public.sounds_data_tiktoksounds
+                    SET tiktok_sound_last_checked_by_shazam_with_no_result = %s
+                    WHERE tiktok_sound_id = %s AND shazamsounds_id IS NULL;
+                """
+                cursor.execute(update_query_no_result, (datetime.now(), tiktok_sound_id))
                 continue
 
-            # Insert into public.sounds_data_shazamsounds
-            insert_query = """
-                INSERT INTO public.sounds_data_shazamsounds (shazam_image_url, shazam_name_of_sound, shazam_sound_id)
-                VALUES (%s, %s, %s)
-                RETURNING id;
-            """
-            cursor.execute(insert_query, (shazam_image_url, shazam_name_of_sound, shazam_sound_id))
-            shazamsounds_id = cursor.fetchone()[0]
+            try:
+                # Check if the shazam_sound_id already exists
+                check_query = "SELECT id FROM public.sounds_data_shazamsounds WHERE shazam_sound_id = %s;"
+                cursor.execute(check_query, (shazam_sound_id,))
+                existing_id = cursor.fetchone()
 
-            # Update public.sounds_data_tiktoksounds
-            update_query = """
-                UPDATE public.sounds_data_tiktoksounds
-                SET shazamsounds_id = %s
-                WHERE tiktok_sound_id = %s;
-            """
-            cursor.execute(update_query, (shazamsounds_id, tiktok_sound_id))
+                if existing_id:
+                    shazamsounds_id = existing_id[0]
+                    print(f"Shazam sound ID {shazam_sound_id} already exists, using existing ID {shazamsounds_id}.")
+                else:
+                    # Insert into public.sounds_data_shazamsounds
+                    insert_query = """
+                        INSERT INTO public.sounds_data_shazamsounds (shazam_image_url, shazam_name_of_sound, shazam_sound_id)
+                        VALUES (%s, %s, %s)
+                        RETURNING id;
+                    """
+                    cursor.execute(insert_query, (shazam_image_url, shazam_name_of_sound, shazam_sound_id))
+                    shazamsounds_id = cursor.fetchone()[0]
+                    print(f"Inserted new Shazam sound ID {shazam_sound_id} with ID {shazamsounds_id}.")
+
+                # Update public.sounds_data_tiktoksounds
+                update_query = """
+                    UPDATE public.sounds_data_tiktoksounds
+                    SET shazamsounds_id = %s
+                    WHERE tiktok_sound_id = %s;
+                """
+                cursor.execute(update_query, (shazamsounds_id, tiktok_sound_id))
+                print(f"Updated TikTok sound ID {tiktok_sound_id} with Shazam sound ID {shazamsounds_id}.")
+
+            except Exception as e:
+                print(f"Error: {e}")
+                continue
 
         # Commit the changes
         conn.commit()

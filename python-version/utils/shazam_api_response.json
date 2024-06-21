@@ -8,202 +8,6 @@
         }
     },
     {
-        "file": "C:\\SongRecTikTok\\python-version\\sounds\\7328029780753500161.mp3",
-        "result": {
-            "matches": [
-                {
-                    "id": "689908426",
-                    "offset": 77.01259375,
-                    "timeskew": -7.033348e-05,
-                    "frequencyskew": -8.0525875e-05
-                }
-            ],
-            "location": {
-                "latitude": 70.61,
-                "longitude": -21.31,
-                "altitude": 248.32,
-                "accuracy": 0.01
-            },
-            "timestamp": 1718914292666,
-            "timezone": "Europe/Kirov",
-            "track": {
-                "layout": "5",
-                "type": "MUSIC",
-                "key": "689908426",
-                "title": "ZODIAC",
-                "subtitle": "NOUA UNSPE, RAVA & BITTNER",
-                "images": {
-                    "background": "https://is1-ssl.mzstatic.com/image/thumb/AMCArtistImages116/v4/a4/16/07/a416078d-e0db-2670-8ef0-37b389743904/a3b8648e-1dbd-4d10-8cfc-f5d90aea043b_file_cropped.png/800x800cc.jpg",
-                    "coverart": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/58/4a/31/584a31bc-50ce-32a9-09d8-7e6964632ca5/cover.jpg/400x400cc.jpg",
-                    "coverarthq": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/58/4a/31/584a31bc-50ce-32a9-09d8-7e6964632ca5/cover.jpg/400x400cc.jpg",
-                    "joecolor": "b:161824p:eff4f3s:e3e9f8t:c4c8c9q:babfcd"
-                },
-                "share": {
-                    "subject": "ZODIAC - NOUA UNSPE, RAVA & BITTNER",
-                    "text": "ZODIAC par NOUA UNSPE, RAVA & BITTNER",
-                    "href": "https://www.shazam.com/track/689908426/zodiac",
-                    "image": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/58/4a/31/584a31bc-50ce-32a9-09d8-7e6964632ca5/cover.jpg/400x400cc.jpg",
-                    "twitter": "J'ai utilisé @Shazam pour découvrir ZODIAC par NOUA UNSPE, RAVA & BITTNER.",
-                    "html": "https://www.shazam.com/snippets/email-share/689908426?lang=fr&country=FR",
-                    "avatar": "https://is1-ssl.mzstatic.com/image/thumb/AMCArtistImages116/v4/a4/16/07/a416078d-e0db-2670-8ef0-37b389743904/a3b8648e-1dbd-4d10-8cfc-f5d90aea043b_file_cropped.png/800x800cc.jpg",
-                    "snapchat": "https://www.shazam.com/partner/sc/track/689908426"
-                },
-                "hub": {
-                    "type": "APPLEMUSIC",
-                    "image": "https://images.shazam.com/static/icons/hub/android/v5/applemusic_{scalefactor}.png",
-                    "actions": [
-                        {
-                            "name": "apple",
-                            "type": "applemusicplay",
-                            "id": "1727566905"
-                        },
-                        {
-                            "name": "apple",
-                            "type": "uri",
-                            "uri": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview126/v4/b4/c0/be/b4c0beb4-23ad-75b6-be17-447894532e1d/mzaf_13141276825355182655.plus.aac.ep.m4a"
-                        }
-                    ],
-                    "options": [
-                        {
-                            "caption": "OUVRIR",
-                            "actions": [
-                                {
-                                    "name": "hub:applemusic:deeplink",
-                                    "type": "intent",
-                                    "uri": "intent://music.apple.com/fr/album/zodiac/1727566882?i=1727566905&mttnagencyid=s2n&mttnsiteid=125115&mttn3pid=Apple-Shazam&mttnsub1=Shazam_android_am&mttnsub2=5348615A-616D-3235-3830-44754D6D5973&itscg=30201&app=music&itsct=Shazam_android_am#Intent;scheme=http;package=com.apple.android.music;action=android.intent.action.VIEW;end"
-                                },
-                                {
-                                    "name": "hub:applemusic:connect",
-                                    "type": "applemusicconnect",
-                                    "id": "1727566905",
-                                    "uri": "https://unsupported.shazam.com"
-                                },
-                                {
-                                    "name": "hub:applemusic:androidstore",
-                                    "type": "uri",
-                                    "uri": "https://play.google.com/store/apps/details?id=com.apple.android.music&referrer=utm_source=https%3A%2F%2Fmusic.apple.com%2Fsubscribe%3Fmttnagencyid%3Ds2n%26mttnsiteid%3D125115%26mttn3pid%3DApple-Shazam%26mttnsub1%3DShazam_android_am%26mttnsub2%3D5348615A-616D-3235-3830-44754D6D5973%26itscg%3D30201%26app%3Dmusic%26itsct%3DShazam_android_am"
-                                }
-                            ],
-                            "beacondata": {
-                                "type": "open",
-                                "providername": "applemusic"
-                            },
-                            "image": "https://images.shazam.com/static/icons/hub/android/v5/overflow-open-option_{scalefactor}.png",
-                            "type": "open",
-                            "listcaption": "Ouvrir dans Apple Music",
-                            "overflowimage": "https://images.shazam.com/static/icons/hub/android/v5/applemusic-overflow_{scalefactor}.png",
-                            "colouroverflowimage": false,
-                            "providername": "applemusic"
-                        }
-                    ],
-                    "providers": [
-                        {
-                            "caption": "Ouvrir dans Spotify",
-                            "images": {
-                                "overflow": "https://images.shazam.com/static/icons/hub/android/v5/spotify-overflow_{scalefactor}.png",
-                                "default": "https://images.shazam.com/static/icons/hub/android/v5/spotify_{scalefactor}.png"
-                            },
-                            "actions": [
-                                {
-                                    "name": "hub:spotify:searchdeeplink",
-                                    "type": "uri",
-                                    "uri": "spotify:search:ZODIAC%20NOUA%20UNSPE"
-                                }
-                            ],
-                            "type": "SPOTIFY"
-                        },
-                        {
-                            "caption": "Ouvrir dans YouTube Music",
-                            "images": {
-                                "overflow": "https://images.shazam.com/static/icons/hub/android/v5/youtubemusic-overflow_{scalefactor}.png",
-                                "default": "https://images.shazam.com/static/icons/hub/android/v5/youtubemusic_{scalefactor}.png"
-                            },
-                            "actions": [
-                                {
-                                    "name": "hub:youtubemusic:androiddeeplink",
-                                    "type": "uri",
-                                    "uri": "https://music.youtube.com/search?q=ZODIAC+NOUA+UNSPE%2C+RAVA++BITTNER&feature=shazam"
-                                }
-                            ],
-                            "type": "YOUTUBEMUSIC"
-                        },
-                        {
-                            "caption": "Ouvrir dans Deezer",
-                            "images": {
-                                "overflow": "https://images.shazam.com/static/icons/hub/android/v5/deezer-overflow_{scalefactor}.png",
-                                "default": "https://images.shazam.com/static/icons/hub/android/v5/deezer_{scalefactor}.png"
-                            },
-                            "actions": [
-                                {
-                                    "name": "hub:deezer:searchdeeplink",
-                                    "type": "uri",
-                                    "uri": "deezer-query://www.deezer.com/play?query=%7Btrack%3A%27ZODIAC%27%20artist%3A%27NOUA+UNSPE%2C+RAVA++BITTNER%27%7D"
-                                }
-                            ],
-                            "type": "DEEZER"
-                        }
-                    ],
-                    "explicit": true,
-                    "displayname": "APPLE MUSIC"
-                },
-                "sections": [
-                    {
-                        "type": "SONG",
-                        "metapages": [
-                            {
-                                "image": "https://is1-ssl.mzstatic.com/image/thumb/AMCArtistImages116/v4/a4/16/07/a416078d-e0db-2670-8ef0-37b389743904/a3b8648e-1dbd-4d10-8cfc-f5d90aea043b_file_cropped.png/800x800cc.jpg",
-                                "caption": "NOUA UNSPE"
-                            },
-                            {
-                                "image": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/58/4a/31/584a31bc-50ce-32a9-09d8-7e6964632ca5/cover.jpg/400x400cc.jpg",
-                                "caption": "ZODIAC"
-                            }
-                        ],
-                        "tabname": "Titre",
-                        "metadata": [
-                            {
-                                "title": "Album",
-                                "text": "ZODIAC - Single"
-                            },
-                            {
-                                "title": "Label",
-                                "text": "Global Records"
-                            },
-                            {
-                                "title": "Sorti",
-                                "text": "2024"
-                            }
-                        ]
-                    },
-                    {
-                        "type": "RELATED",
-                        "url": "https://cdn.shazam.com/shazam/v3/fr/FR/android/-/tracks/track-similarities-id-689908426?startFrom=0&pageSize=20&connected=",
-                        "tabname": "Titres similaires"
-                    }
-                ],
-                "url": "https://www.shazam.com/track/689908426/zodiac",
-                "artists": [
-                    {
-                        "id": "42",
-                        "adamid": "1508310963"
-                    }
-                ],
-                "isrc": "ROGRA2400036",
-                "genres": {
-                    "primary": "Hip-hop/Rap"
-                },
-                "urlparams": {
-                    "{tracktitle}": "ZODIAC",
-                    "{trackartist}": "NOUA+UNSPE%2C+RAVA+%26+BITTNER"
-                },
-                "highlightsurls": {},
-                "relatedtracksurl": "https://cdn.shazam.com/shazam/v3/fr/FR/android/-/tracks/track-similarities-id-689908426?startFrom=0&pageSize=20&connected=",
-                "albumadamid": "1727566882"
-            },
-            "tagid": "b161efb3-468a-52b2-b3b6-9d1383c65344"
-        }
-    },
-    {
         "file": "C:\\SongRecTikTok\\python-version\\sounds\\7353315402128230417.mp3",
         "result": {
             "matches": [
@@ -220,7 +24,7 @@
                 "altitude": 248.32,
                 "accuracy": 0.01
             },
-            "timestamp": 1718914310870,
+            "timestamp": 1718965695404,
             "timezone": "Europe/Kirov",
             "track": {
                 "layout": "5",
@@ -410,7 +214,7 @@
                 "altitude": 248.32,
                 "accuracy": 0.01
             },
-            "timestamp": 1718914328881,
+            "timestamp": 1718965714412,
             "timezone": "Europe/Kirov",
             "track": {
                 "layout": "5",
@@ -598,6 +402,262 @@
         }
     },
     {
+        "file": "C:\\SongRecTikTok\\python-version\\sounds\\7373624736613075744.mp3",
+        "result": {
+            "matches": [
+                {
+                    "id": "531748708",
+                    "offset": 142.838109375,
+                    "timeskew": -0.0014816523,
+                    "frequencyskew": 0.0004028082
+                },
+                {
+                    "id": "641384490",
+                    "offset": 68.06434375,
+                    "timeskew": -0.0030390024,
+                    "frequencyskew": -8.0525875e-05
+                },
+                {
+                    "id": "444417203",
+                    "offset": 223.636390625,
+                    "timeskew": -0.005608022,
+                    "frequencyskew": 8.058548e-05
+                },
+                {
+                    "id": "696102541",
+                    "offset": 90.695625,
+                    "timeskew": -0.0024502277,
+                    "frequencyskew": 0.0
+                },
+                {
+                    "id": "527344608",
+                    "offset": 64.870953125,
+                    "timeskew": 0.00047028065,
+                    "frequencyskew": 0.0
+                },
+                {
+                    "id": "700880020",
+                    "offset": 163.3741875,
+                    "timeskew": -0.0035022497,
+                    "frequencyskew": 0.0
+                },
+                {
+                    "id": "660208023",
+                    "offset": 16.015728515,
+                    "timeskew": -0.0037487745,
+                    "frequencyskew": -8.0525875e-05
+                },
+                {
+                    "id": "674309272",
+                    "offset": 341.84896875,
+                    "timeskew": -0.0038654208,
+                    "frequencyskew": -8.0525875e-05
+                },
+                {
+                    "id": "675558067",
+                    "offset": 15.929159179000001,
+                    "timeskew": -0.0070098042,
+                    "frequencyskew": -8.0525875e-05
+                },
+                {
+                    "id": "652287601",
+                    "offset": 264.758625,
+                    "timeskew": -0.004877627,
+                    "frequencyskew": 4.029274e-05
+                },
+                {
+                    "id": "548506165",
+                    "offset": 6.58482666,
+                    "timeskew": -0.003624618,
+                    "frequencyskew": -0.00048315525
+                }
+            ],
+            "location": {
+                "latitude": 70.61,
+                "longitude": -21.31,
+                "altitude": 248.32,
+                "accuracy": 0.01
+            },
+            "timestamp": 1718965760845,
+            "timezone": "Europe/Kirov",
+            "track": {
+                "layout": "5",
+                "type": "MUSIC",
+                "key": "499759718",
+                "title": "Anime Thighs (feat. wonder)",
+                "subtitle": "MC Virgins",
+                "images": {
+                    "background": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/4d/d3/14/4dd3145e-cd1c-0dfb-6020-bd746b3016b9/pr_source.png/800x800cc.jpg",
+                    "coverart": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/10/22/04/102204a4-48bf-a8cf-0959-bdcfb47c378c/197089065447.png/400x400cc.jpg",
+                    "coverarthq": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/10/22/04/102204a4-48bf-a8cf-0959-bdcfb47c378c/197089065447.png/400x400cc.jpg",
+                    "joecolor": "b:eaad91p:110b12s:481919t:3c2b2bq:683731"
+                },
+                "share": {
+                    "subject": "Anime Thighs (feat. wonder) - MC Virgins",
+                    "text": "Anime Thighs (feat. wonder) par MC Virgins",
+                    "href": "https://www.shazam.com/track/499759718/anime-thighs-feat-wonder",
+                    "image": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/10/22/04/102204a4-48bf-a8cf-0959-bdcfb47c378c/197089065447.png/400x400cc.jpg",
+                    "twitter": "J'ai utilisé @Shazam pour découvrir Anime Thighs (feat. wonder) par MC Virgins.",
+                    "html": "https://www.shazam.com/snippets/email-share/499759718?lang=fr&country=FR",
+                    "avatar": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/4d/d3/14/4dd3145e-cd1c-0dfb-6020-bd746b3016b9/pr_source.png/800x800cc.jpg",
+                    "snapchat": "https://www.shazam.com/partner/sc/track/499759718"
+                },
+                "hub": {
+                    "type": "APPLEMUSIC",
+                    "image": "https://images.shazam.com/static/icons/hub/android/v5/applemusic_{scalefactor}.png",
+                    "actions": [
+                        {
+                            "name": "apple",
+                            "type": "applemusicplay",
+                            "id": "1645632648"
+                        },
+                        {
+                            "name": "apple",
+                            "type": "uri",
+                            "uri": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview112/v4/30/a0/60/30a06023-677f-6711-c24f-64f171a98e32/mzaf_7631556872840503846.plus.aac.ep.m4a"
+                        }
+                    ],
+                    "options": [
+                        {
+                            "caption": "OUVRIR",
+                            "actions": [
+                                {
+                                    "name": "hub:applemusic:deeplink",
+                                    "type": "intent",
+                                    "uri": "intent://music.apple.com/fr/album/anime-thighs-feat-wonder/1645632647?i=1645632648&mttnagencyid=s2n&mttnsiteid=125115&mttn3pid=Apple-Shazam&mttnsub1=Shazam_android_am&mttnsub2=5348615A-616D-3235-3830-44754D6D5973&itscg=30201&app=music&itsct=Shazam_android_am#Intent;scheme=http;package=com.apple.android.music;action=android.intent.action.VIEW;end"
+                                },
+                                {
+                                    "name": "hub:applemusic:connect",
+                                    "type": "applemusicconnect",
+                                    "id": "1645632648",
+                                    "uri": "https://unsupported.shazam.com"
+                                },
+                                {
+                                    "name": "hub:applemusic:androidstore",
+                                    "type": "uri",
+                                    "uri": "https://play.google.com/store/apps/details?id=com.apple.android.music&referrer=utm_source=https%3A%2F%2Fmusic.apple.com%2Fsubscribe%3Fmttnagencyid%3Ds2n%26mttnsiteid%3D125115%26mttn3pid%3DApple-Shazam%26mttnsub1%3DShazam_android_am%26mttnsub2%3D5348615A-616D-3235-3830-44754D6D5973%26itscg%3D30201%26app%3Dmusic%26itsct%3DShazam_android_am"
+                                }
+                            ],
+                            "beacondata": {
+                                "type": "open",
+                                "providername": "applemusic"
+                            },
+                            "image": "https://images.shazam.com/static/icons/hub/android/v5/overflow-open-option_{scalefactor}.png",
+                            "type": "open",
+                            "listcaption": "Ouvrir dans Apple Music",
+                            "overflowimage": "https://images.shazam.com/static/icons/hub/android/v5/applemusic-overflow_{scalefactor}.png",
+                            "colouroverflowimage": false,
+                            "providername": "applemusic"
+                        }
+                    ],
+                    "providers": [
+                        {
+                            "caption": "Ouvrir dans Spotify",
+                            "images": {
+                                "overflow": "https://images.shazam.com/static/icons/hub/android/v5/spotify-overflow_{scalefactor}.png",
+                                "default": "https://images.shazam.com/static/icons/hub/android/v5/spotify_{scalefactor}.png"
+                            },
+                            "actions": [
+                                {
+                                    "name": "hub:spotify:searchdeeplink",
+                                    "type": "uri",
+                                    "uri": "spotify:search:Anime%20Thighs%20%28feat.%20wonder%29%20MC%20Virgins"
+                                }
+                            ],
+                            "type": "SPOTIFY"
+                        },
+                        {
+                            "caption": "Ouvrir dans YouTube Music",
+                            "images": {
+                                "overflow": "https://images.shazam.com/static/icons/hub/android/v5/youtubemusic-overflow_{scalefactor}.png",
+                                "default": "https://images.shazam.com/static/icons/hub/android/v5/youtubemusic_{scalefactor}.png"
+                            },
+                            "actions": [
+                                {
+                                    "name": "hub:youtubemusic:androiddeeplink",
+                                    "type": "uri",
+                                    "uri": "https://music.youtube.com/search?q=Anime+Thighs+%28feat.+wonder%29+MC+Virgins&feature=shazam"
+                                }
+                            ],
+                            "type": "YOUTUBEMUSIC"
+                        },
+                        {
+                            "caption": "Ouvrir dans Deezer",
+                            "images": {
+                                "overflow": "https://images.shazam.com/static/icons/hub/android/v5/deezer-overflow_{scalefactor}.png",
+                                "default": "https://images.shazam.com/static/icons/hub/android/v5/deezer_{scalefactor}.png"
+                            },
+                            "actions": [
+                                {
+                                    "name": "hub:deezer:searchdeeplink",
+                                    "type": "uri",
+                                    "uri": "deezer-query://www.deezer.com/play?query=%7Btrack%3A%27Anime+Thighs+%28feat.+wonder%29%27%20artist%3A%27MC+Virgins%27%7D"
+                                }
+                            ],
+                            "type": "DEEZER"
+                        }
+                    ],
+                    "explicit": true,
+                    "displayname": "APPLE MUSIC"
+                },
+                "sections": [
+                    {
+                        "type": "SONG",
+                        "metapages": [
+                            {
+                                "image": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/4d/d3/14/4dd3145e-cd1c-0dfb-6020-bd746b3016b9/pr_source.png/800x800cc.jpg",
+                                "caption": "MC Virgins"
+                            },
+                            {
+                                "image": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/10/22/04/102204a4-48bf-a8cf-0959-bdcfb47c378c/197089065447.png/400x400cc.jpg",
+                                "caption": "Anime Thighs (feat. wonder)"
+                            }
+                        ],
+                        "tabname": "Titre",
+                        "metadata": [
+                            {
+                                "title": "Album",
+                                "text": "Anime Thighs (feat. wonder) - Single"
+                            },
+                            {
+                                "title": "Label",
+                                "text": "MC Virgins"
+                            },
+                            {
+                                "title": "Sorti",
+                                "text": "2019"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "RELATED",
+                        "url": "https://cdn.shazam.com/shazam/v3/fr/FR/android/-/tracks/track-similarities-id-499759718?startFrom=0&pageSize=20&connected=",
+                        "tabname": "Titres similaires"
+                    }
+                ],
+                "url": "https://www.shazam.com/track/499759718/anime-thighs-feat-wonder",
+                "artists": [
+                    {
+                        "id": "42",
+                        "adamid": "1481783288"
+                    }
+                ],
+                "isrc": "QZHN61955151",
+                "genres": {
+                    "primary": "Hip-hop/Rap"
+                },
+                "urlparams": {
+                    "{tracktitle}": "Anime+Thighs+%28feat.+wonder%29",
+                    "{trackartist}": "MC+Virgins"
+                },
+                "highlightsurls": {},
+                "relatedtracksurl": "https://cdn.shazam.com/shazam/v3/fr/FR/android/-/tracks/track-similarities-id-499759718?startFrom=0&pageSize=20&connected=",
+                "albumadamid": "1645632647"
+            },
+            "tagid": "b161efb3-468a-52b2-b3b6-9d1383c65344"
+        }
+    },
+    {
         "file": "C:\\SongRecTikTok\\python-version\\sounds\\7374837970972855046.mp3",
         "result": {
             "matches": [
@@ -614,7 +674,7 @@
                 "altitude": 248.32,
                 "accuracy": 0.01
             },
-            "timestamp": 1718914373864,
+            "timestamp": 1718965783154,
             "timezone": "Europe/Kirov",
             "track": {
                 "layout": "5",
@@ -794,32 +854,38 @@
         }
     },
     {
-        "file": "C:\\SongRecTikTok\\python-version\\sounds\\7377700872991689505.mp3",
+        "file": "C:\\SongRecTikTok\\python-version\\sounds\\7379214259965922080.mp3",
+        "result": {
+            "matches": [],
+            "tagid": "b161efb3-468a-52b2-b3b6-9d1383c65344",
+            "retryms": 9000
+        }
+    },
+    {
+        "file": "C:\\SongRecTikTok\\python-version\\sounds\\7381416445185395489.mp3",
+        "result": {
+            "matches": [],
+            "tagid": "b161efb3-468a-52b2-b3b6-9d1383c65344",
+            "retryms": 9000
+        }
+    },
+    {
+        "file": "C:\\SongRecTikTok\\python-version\\sounds\\7381423220135594784.mp3",
+        "result": {
+            "matches": [],
+            "tagid": "b161efb3-468a-52b2-b3b6-9d1383c65344",
+            "retryms": 9000
+        }
+    },
+    {
+        "file": "C:\\SongRecTikTok\\python-version\\sounds\\7381467473058892577.mp3",
         "result": {
             "matches": [
                 {
-                    "id": "511975690",
-                    "offset": 12.182254881999999,
-                    "timeskew": -4.2378902e-05,
-                    "frequencyskew": -0.000120818615
-                },
-                {
-                    "id": "505406522",
-                    "offset": 11.936770506999999,
-                    "timeskew": -1.7642975e-05,
-                    "frequencyskew": -0.00040262938
-                },
-                {
-                    "id": "524466433",
-                    "offset": 69.48434375,
-                    "timeskew": -1.1980534e-05,
-                    "frequencyskew": 0.0
-                },
-                {
-                    "id": "663432496",
-                    "offset": 57.001453125,
-                    "timeskew": 0.000116705894,
-                    "frequencyskew": 0.0
+                    "id": "699972795",
+                    "offset": 26.568630859000002,
+                    "timeskew": 0.0018190145,
+                    "frequencyskew": 0.00024163723
                 }
             ],
             "location": {
@@ -828,29 +894,29 @@
                 "altitude": 248.32,
                 "accuracy": 0.01
             },
-            "timestamp": 1718914391850,
+            "timestamp": 1718965871792,
             "timezone": "Europe/Kirov",
             "track": {
                 "layout": "5",
                 "type": "MUSIC",
-                "key": "465761860",
-                "title": "HIGHEST IN THE ROOM",
-                "subtitle": "Travis Scott",
+                "key": "699972795",
+                "title": "Dudadu",
+                "subtitle": "Irina Rimes",
                 "images": {
-                    "background": "https://is1-ssl.mzstatic.com/image/thumb/AMCArtistImages116/v4/2a/a2/bf/2aa2bf4d-058f-8142-bb91-1082f0a3f77f/01a7e7e2-3be8-4c6d-9c69-79c2cdc9bbcb_ami-identity-37880238a23a47d53d01a6f4e67f0167-2023-07-21T03-39-41.660Z_cropped.png/800x800cc.jpg",
-                    "coverart": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/30/5f/c4/305fc4b4-155d-8e67-7c7a-8eb35032fbcb/886448042792.jpg/400x400cc.jpg",
-                    "coverarthq": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/30/5f/c4/305fc4b4-155d-8e67-7c7a-8eb35032fbcb/886448042792.jpg/400x400cc.jpg",
-                    "joecolor": "b:394f74p:e6e4e8s:becbe4t:c4c6d0q:a3b2ce"
+                    "background": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/5a/6b/78/5a6b7828-55dd-0944-68b6-40955c4df933/pr_source.png/800x800cc.jpg",
+                    "coverart": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/6e/a1/4c/6ea14c1f-1f35-99c6-839a-9c8fe0e4b4af/cover.jpg/400x400cc.jpg",
+                    "coverarthq": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/6e/a1/4c/6ea14c1f-1f35-99c6-839a-9c8fe0e4b4af/cover.jpg/400x400cc.jpg",
+                    "joecolor": "b:071114p:cdd1b4s:bcc798t:a5aa94q:98a27d"
                 },
                 "share": {
-                    "subject": "HIGHEST IN THE ROOM - Travis Scott",
-                    "text": "HIGHEST IN THE ROOM par Travis Scott",
-                    "href": "https://www.shazam.com/track/465761860/highest-in-the-room",
-                    "image": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/30/5f/c4/305fc4b4-155d-8e67-7c7a-8eb35032fbcb/886448042792.jpg/400x400cc.jpg",
-                    "twitter": "J'ai utilisé @Shazam pour découvrir HIGHEST IN THE ROOM par Travis Scott.",
-                    "html": "https://www.shazam.com/snippets/email-share/465761860?lang=fr&country=FR",
-                    "avatar": "https://is1-ssl.mzstatic.com/image/thumb/AMCArtistImages116/v4/2a/a2/bf/2aa2bf4d-058f-8142-bb91-1082f0a3f77f/01a7e7e2-3be8-4c6d-9c69-79c2cdc9bbcb_ami-identity-37880238a23a47d53d01a6f4e67f0167-2023-07-21T03-39-41.660Z_cropped.png/800x800cc.jpg",
-                    "snapchat": "https://www.shazam.com/partner/sc/track/465761860"
+                    "subject": "Dudadu - Irina Rimes",
+                    "text": "Dudadu par Irina Rimes",
+                    "href": "https://www.shazam.com/track/699972795/dudadu",
+                    "image": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/6e/a1/4c/6ea14c1f-1f35-99c6-839a-9c8fe0e4b4af/cover.jpg/400x400cc.jpg",
+                    "twitter": "J'ai utilisé @Shazam pour découvrir Dudadu par Irina Rimes.",
+                    "html": "https://www.shazam.com/snippets/email-share/699972795?lang=fr&country=FR",
+                    "avatar": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/5a/6b/78/5a6b7828-55dd-0944-68b6-40955c4df933/pr_source.png/800x800cc.jpg",
+                    "snapchat": "https://www.shazam.com/partner/sc/track/699972795"
                 },
                 "hub": {
                     "type": "APPLEMUSIC",
@@ -859,12 +925,12 @@
                         {
                             "name": "apple",
                             "type": "applemusicplay",
-                            "id": "1481874619"
+                            "id": "1744490214"
                         },
                         {
                             "name": "apple",
                             "type": "uri",
-                            "uri": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/2e/95/b1/2e95b1e5-7525-4c2f-bc0e-8f81ac377963/mzaf_80767811949056339.plus.aac.ep.m4a"
+                            "uri": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/9c/d9/ee/9cd9eeb2-2804-61e1-6080-daa63a443205/mzaf_5759569999484404416.plus.aac.ep.m4a"
                         }
                     ],
                     "options": [
@@ -874,12 +940,12 @@
                                 {
                                     "name": "hub:applemusic:deeplink",
                                     "type": "intent",
-                                    "uri": "intent://music.apple.com/fr/album/highest-in-the-room/1481874613?i=1481874619&mttnagencyid=s2n&mttnsiteid=125115&mttn3pid=Apple-Shazam&mttnsub1=Shazam_android_am&mttnsub2=5348615A-616D-3235-3830-44754D6D5973&itscg=30201&app=music&itsct=Shazam_android_am#Intent;scheme=http;package=com.apple.android.music;action=android.intent.action.VIEW;end"
+                                    "uri": "intent://music.apple.com/fr/album/dudadu/1744490210?i=1744490214&mttnagencyid=s2n&mttnsiteid=125115&mttn3pid=Apple-Shazam&mttnsub1=Shazam_android_am&mttnsub2=5348615A-616D-3235-3830-44754D6D5973&itscg=30201&app=music&itsct=Shazam_android_am#Intent;scheme=http;package=com.apple.android.music;action=android.intent.action.VIEW;end"
                                 },
                                 {
                                     "name": "hub:applemusic:connect",
                                     "type": "applemusicconnect",
-                                    "id": "1481874619",
+                                    "id": "1744490214",
                                     "uri": "https://unsupported.shazam.com"
                                 },
                                 {
@@ -911,7 +977,7 @@
                                 {
                                     "name": "hub:spotify:searchdeeplink",
                                     "type": "uri",
-                                    "uri": "spotify:search:HIGHEST%20IN%20THE%20ROOM%20Travis%20Scott"
+                                    "uri": "spotify:search:Dudadu%20Irina%20Rimes"
                                 }
                             ],
                             "type": "SPOTIFY"
@@ -926,7 +992,7 @@
                                 {
                                     "name": "hub:youtubemusic:androiddeeplink",
                                     "type": "uri",
-                                    "uri": "https://music.youtube.com/search?q=HIGHEST+IN+THE+ROOM+Travis+Scott&feature=shazam"
+                                    "uri": "https://music.youtube.com/search?q=Dudadu+Irina+Rimes&feature=shazam"
                                 }
                             ],
                             "type": "YOUTUBEMUSIC"
@@ -941,13 +1007,13 @@
                                 {
                                     "name": "hub:deezer:searchdeeplink",
                                     "type": "uri",
-                                    "uri": "deezer-query://www.deezer.com/play?query=%7Btrack%3A%27HIGHEST+IN+THE+ROOM%27%20artist%3A%27Travis+Scott%27%7D"
+                                    "uri": "deezer-query://www.deezer.com/play?query=%7Btrack%3A%27Dudadu%27%20artist%3A%27Irina+Rimes%27%7D"
                                 }
                             ],
                             "type": "DEEZER"
                         }
                     ],
-                    "explicit": true,
+                    "explicit": false,
                     "displayname": "APPLE MUSIC"
                 },
                 "sections": [
@@ -955,72 +1021,241 @@
                         "type": "SONG",
                         "metapages": [
                             {
-                                "image": "https://is1-ssl.mzstatic.com/image/thumb/AMCArtistImages116/v4/2a/a2/bf/2aa2bf4d-058f-8142-bb91-1082f0a3f77f/01a7e7e2-3be8-4c6d-9c69-79c2cdc9bbcb_ami-identity-37880238a23a47d53d01a6f4e67f0167-2023-07-21T03-39-41.660Z_cropped.png/800x800cc.jpg",
-                                "caption": "Travis Scott"
+                                "image": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/5a/6b/78/5a6b7828-55dd-0944-68b6-40955c4df933/pr_source.png/800x800cc.jpg",
+                                "caption": "Irina Rimes"
                             },
                             {
-                                "image": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/30/5f/c4/305fc4b4-155d-8e67-7c7a-8eb35032fbcb/886448042792.jpg/400x400cc.jpg",
-                                "caption": "HIGHEST IN THE ROOM"
+                                "image": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/6e/a1/4c/6ea14c1f-1f35-99c6-839a-9c8fe0e4b4af/cover.jpg/400x400cc.jpg",
+                                "caption": "Dudadu"
                             }
                         ],
                         "tabname": "Titre",
                         "metadata": [
                             {
                                 "title": "Album",
-                                "text": "HIGHEST IN THE ROOM - Single"
+                                "text": "Dudadu - Single"
                             },
                             {
                                 "title": "Label",
-                                "text": "Cactus Jack/Epic"
+                                "text": "Global Records"
                             },
                             {
                                 "title": "Sorti",
-                                "text": "2019"
+                                "text": "2024"
                             }
                         ]
                     },
                     {
                         "type": "RELATED",
-                        "url": "https://cdn.shazam.com/shazam/v3/fr/FR/android/-/tracks/track-similarities-id-465761860?startFrom=0&pageSize=20&connected=",
+                        "url": "https://cdn.shazam.com/shazam/v3/fr/FR/android/-/tracks/track-similarities-id-699972795?startFrom=0&pageSize=20&connected=",
                         "tabname": "Titres similaires"
                     }
                 ],
-                "url": "https://www.shazam.com/track/465761860/highest-in-the-room",
+                "url": "https://www.shazam.com/track/699972795/dudadu",
                 "artists": [
                     {
                         "id": "42",
-                        "adamid": "549236696"
+                        "adamid": "1186736614"
                     }
                 ],
-                "isrc": "USSM11904276",
+                "isrc": "ROGRA2400343",
                 "genres": {
-                    "primary": "Hip-hop/Rap"
+                    "primary": "Pop"
                 },
                 "urlparams": {
-                    "{tracktitle}": "HIGHEST+IN+THE+ROOM",
-                    "{trackartist}": "Travis+Scott"
+                    "{tracktitle}": "Dudadu",
+                    "{trackartist}": "Irina+Rimes"
                 },
                 "highlightsurls": {},
-                "relatedtracksurl": "https://cdn.shazam.com/shazam/v3/fr/FR/android/-/tracks/track-similarities-id-465761860?startFrom=0&pageSize=20&connected=",
-                "albumadamid": "1481874613"
+                "relatedtracksurl": "https://cdn.shazam.com/shazam/v3/fr/FR/android/-/tracks/track-similarities-id-699972795?startFrom=0&pageSize=20&connected=",
+                "albumadamid": "1744490210"
             },
             "tagid": "b161efb3-468a-52b2-b3b6-9d1383c65344"
         }
     },
     {
-        "file": "C:\\SongRecTikTok\\python-version\\sounds\\7380980548308880160.mp3",
+        "file": "C:\\SongRecTikTok\\python-version\\sounds\\7381528156677311265.mp3",
         "result": {
-            "matches": [],
-            "tagid": "b161efb3-468a-52b2-b3b6-9d1383c65344",
-            "retryms": 9000
-        }
-    },
-    {
-        "file": "C:\\SongRecTikTok\\python-version\\sounds\\7381514782572858118.mp3",
-        "result": {
-            "matches": [],
-            "tagid": "b161efb3-468a-52b2-b3b6-9d1383c65344",
-            "retryms": 5000
+            "matches": [
+                {
+                    "id": "702755682",
+                    "offset": 104.90884375,
+                    "timeskew": -0.0018153787,
+                    "frequencyskew": -0.00040262938
+                }
+            ],
+            "location": {
+                "latitude": 70.61,
+                "longitude": -21.31,
+                "altitude": 248.32,
+                "accuracy": 0.01
+            },
+            "timestamp": 1718965890234,
+            "timezone": "Europe/Kirov",
+            "track": {
+                "layout": "5",
+                "type": "MUSIC",
+                "key": "702755682",
+                "title": "Altfel de amor",
+                "subtitle": "Andrei Banuta",
+                "images": {
+                    "background": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/d4/48/e5/d448e530-8919-d6eb-b99b-37a44d131808/cover.jpg/400x400cc.jpg",
+                    "coverart": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/d4/48/e5/d448e530-8919-d6eb-b99b-37a44d131808/cover.jpg/400x400cc.jpg",
+                    "coverarthq": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/d4/48/e5/d448e530-8919-d6eb-b99b-37a44d131808/cover.jpg/400x400cc.jpg",
+                    "joecolor": "b:20120fp:9dd4ces:7ecac4t:84ada8q:6ba5a0"
+                },
+                "share": {
+                    "subject": "Altfel de amor - Andrei Banuta",
+                    "text": "Altfel de amor par Andrei Banuta",
+                    "href": "https://www.shazam.com/track/702755682/altfel-de-amor",
+                    "image": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/d4/48/e5/d448e530-8919-d6eb-b99b-37a44d131808/cover.jpg/400x400cc.jpg",
+                    "twitter": "J'ai utilisé @Shazam pour découvrir Altfel de amor par Andrei Banuta.",
+                    "html": "https://www.shazam.com/snippets/email-share/702755682?lang=fr&country=FR",
+                    "snapchat": "https://www.shazam.com/partner/sc/track/702755682"
+                },
+                "hub": {
+                    "type": "APPLEMUSIC",
+                    "image": "https://images.shazam.com/static/icons/hub/android/v5/applemusic_{scalefactor}.png",
+                    "actions": [
+                        {
+                            "name": "apple",
+                            "type": "applemusicplay",
+                            "id": "1749308611"
+                        },
+                        {
+                            "name": "apple",
+                            "type": "uri",
+                            "uri": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/54/19/2e/54192e26-067f-681b-a310-9dc80e732b73/mzaf_2503907952468553851.plus.aac.ep.m4a"
+                        }
+                    ],
+                    "options": [
+                        {
+                            "caption": "OUVRIR",
+                            "actions": [
+                                {
+                                    "name": "hub:applemusic:deeplink",
+                                    "type": "intent",
+                                    "uri": "intent://music.apple.com/fr/album/altfel-de-amor/1749308466?i=1749308611&mttnagencyid=s2n&mttnsiteid=125115&mttn3pid=Apple-Shazam&mttnsub1=Shazam_android_am&mttnsub2=5348615A-616D-3235-3830-44754D6D5973&itscg=30201&app=music&itsct=Shazam_android_am#Intent;scheme=http;package=com.apple.android.music;action=android.intent.action.VIEW;end"
+                                },
+                                {
+                                    "name": "hub:applemusic:connect",
+                                    "type": "applemusicconnect",
+                                    "id": "1749308611",
+                                    "uri": "https://unsupported.shazam.com"
+                                },
+                                {
+                                    "name": "hub:applemusic:androidstore",
+                                    "type": "uri",
+                                    "uri": "https://play.google.com/store/apps/details?id=com.apple.android.music&referrer=utm_source=https%3A%2F%2Fmusic.apple.com%2Fsubscribe%3Fmttnagencyid%3Ds2n%26mttnsiteid%3D125115%26mttn3pid%3DApple-Shazam%26mttnsub1%3DShazam_android_am%26mttnsub2%3D5348615A-616D-3235-3830-44754D6D5973%26itscg%3D30201%26app%3Dmusic%26itsct%3DShazam_android_am"
+                                }
+                            ],
+                            "beacondata": {
+                                "type": "open",
+                                "providername": "applemusic"
+                            },
+                            "image": "https://images.shazam.com/static/icons/hub/android/v5/overflow-open-option_{scalefactor}.png",
+                            "type": "open",
+                            "listcaption": "Ouvrir dans Apple Music",
+                            "overflowimage": "https://images.shazam.com/static/icons/hub/android/v5/applemusic-overflow_{scalefactor}.png",
+                            "colouroverflowimage": false,
+                            "providername": "applemusic"
+                        }
+                    ],
+                    "providers": [
+                        {
+                            "caption": "Ouvrir dans Spotify",
+                            "images": {
+                                "overflow": "https://images.shazam.com/static/icons/hub/android/v5/spotify-overflow_{scalefactor}.png",
+                                "default": "https://images.shazam.com/static/icons/hub/android/v5/spotify_{scalefactor}.png"
+                            },
+                            "actions": [
+                                {
+                                    "name": "hub:spotify:searchdeeplink",
+                                    "type": "uri",
+                                    "uri": "spotify:search:Altfel%20de%20amor%20Andrei%20Banuta"
+                                }
+                            ],
+                            "type": "SPOTIFY"
+                        },
+                        {
+                            "caption": "Ouvrir dans YouTube Music",
+                            "images": {
+                                "overflow": "https://images.shazam.com/static/icons/hub/android/v5/youtubemusic-overflow_{scalefactor}.png",
+                                "default": "https://images.shazam.com/static/icons/hub/android/v5/youtubemusic_{scalefactor}.png"
+                            },
+                            "actions": [
+                                {
+                                    "name": "hub:youtubemusic:androiddeeplink",
+                                    "type": "uri",
+                                    "uri": "https://music.youtube.com/search?q=Altfel+de+amor+Andrei+Banuta&feature=shazam"
+                                }
+                            ],
+                            "type": "YOUTUBEMUSIC"
+                        },
+                        {
+                            "caption": "Ouvrir dans Deezer",
+                            "images": {
+                                "overflow": "https://images.shazam.com/static/icons/hub/android/v5/deezer-overflow_{scalefactor}.png",
+                                "default": "https://images.shazam.com/static/icons/hub/android/v5/deezer_{scalefactor}.png"
+                            },
+                            "actions": [
+                                {
+                                    "name": "hub:deezer:searchdeeplink",
+                                    "type": "uri",
+                                    "uri": "deezer-query://www.deezer.com/play?query=%7Btrack%3A%27Altfel+de+amor%27%20artist%3A%27Andrei+Banuta%27%7D"
+                                }
+                            ],
+                            "type": "DEEZER"
+                        }
+                    ],
+                    "explicit": false,
+                    "displayname": "APPLE MUSIC"
+                },
+                "sections": [
+                    {
+                        "type": "SONG",
+                        "metapages": [
+                            {
+                                "image": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/d4/48/e5/d448e530-8919-d6eb-b99b-37a44d131808/cover.jpg/400x400cc.jpg",
+                                "caption": "Altfel de amor"
+                            }
+                        ],
+                        "tabname": "Titre",
+                        "metadata": [
+                            {
+                                "title": "Album",
+                                "text": "Altfel de amor - Single"
+                            },
+                            {
+                                "title": "Label",
+                                "text": "Global Records / Mattman Music"
+                            },
+                            {
+                                "title": "Sorti",
+                                "text": "2024"
+                            }
+                        ]
+                    }
+                ],
+                "url": "https://www.shazam.com/track/702755682/altfel-de-amor",
+                "artists": [
+                    {
+                        "id": "42",
+                        "adamid": "1346566489"
+                    }
+                ],
+                "isrc": "ROGRA2400375",
+                "genres": {
+                    "primary": "Pop"
+                },
+                "urlparams": {
+                    "{tracktitle}": "Altfel+de+amor",
+                    "{trackartist}": "Andrei+Banuta"
+                },
+                "highlightsurls": {},
+                "albumadamid": "1749308466"
+            },
+            "tagid": "b161efb3-468a-52b2-b3b6-9d1383c65344"
         }
     }
 ]

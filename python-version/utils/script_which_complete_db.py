@@ -3,6 +3,7 @@ import psycopg2
 import requests
 import json
 from dotenv import load_dotenv
+from datetime import datetime, timedelta
 
 # Load environment variables from .env file
 load_dotenv()
@@ -24,14 +25,20 @@ def fetch_tiktok_play_urls():
         
         cursor = connection.cursor()
 
-        # Query to fetch tiktok_play_url and tiktok_sound_id column values where shazam_sound_id is null
+        # Define the date two weeks ago from now
+        two_weeks_ago = datetime.now() - timedelta(weeks=2)
+
+        # Query to fetch tiktok_play_url and tiktok_sound_id column values with the specified conditions
         query = '''
         SELECT tiktok_play_url, tiktok_sound_id 
         FROM public.sounds_data_tiktoksounds 
-        LEFT JOIN public.sounds_data_shazamsounds ON public.sounds_data_tiktoksounds.tiktok_sound_id = public.sounds_data_shazamsounds.shazam_sound_id 
+        LEFT JOIN public.sounds_data_shazamsounds 
+        ON public.sounds_data_tiktoksounds.tiktok_sound_id = public.sounds_data_shazamsounds.shazam_sound_id 
         WHERE shazam_sound_id IS NULL 
+        OR (tiktok_sound_last_checked_by_shazam_with_no_result IS NOT NULL 
+            AND tiktok_sound_last_checked_by_shazam_with_no_result < %s)
         '''
-        cursor.execute(query)
+        cursor.execute(query, (two_weeks_ago,))
 
         # Fetch all rows
         rows = cursor.fetchall()

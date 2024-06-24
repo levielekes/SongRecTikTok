@@ -1,0 +1,2 @@
+C:\SongRecTikTok\python-version\utils\script_which_complete_db.py
+1. If it gets an error when downloading the file, it is going just to skip that row in DB, it won't complete the tiktok_sound_last_checked_by_shazam_with_no_result field.

@@ -25,27 +25,33 @@ def fetch_tiktok_play_urls():
         
         cursor = connection.cursor()
 
-        # Define the date two weeks ago from now
-        two_weeks_ago = datetime.now() - timedelta(weeks=2)
-
-        # Query to fetch tiktok_play_url and tiktok_sound_id column values with the specified conditions
         query = '''
-        SELECT tiktok_play_url, tiktok_sound_id 
-        FROM public.sounds_data_tiktoksounds 
-        LEFT JOIN public.sounds_data_shazamsounds 
-        ON public.sounds_data_tiktoksounds.tiktok_sound_id = public.sounds_data_shazamsounds.shazam_sound_id 
-        WHERE shazam_sound_id IS NULL 
-        OR (tiktok_sound_last_checked_by_shazam_with_no_result IS NOT NULL 
-            AND tiktok_sound_last_checked_by_shazam_with_no_result < %s)
+        SELECT 
+            tiktok_play_url, 
+            public.sounds_data_tiktoksounds.tiktok_sound_id, 
+            tiktok_sound_last_checked_by_shazam_with_no_result,
+            public.sounds_data_tiktoksounds.shazamsounds_id
+        FROM 
+            public.sounds_data_tiktoksounds 
+        LEFT JOIN 
+            public.sounds_data_shazamsounds 
+        ON 
+            public.sounds_data_tiktoksounds.shazamsounds_id = public.sounds_data_shazamsounds.id 
+        WHERE 
+            public.sounds_data_tiktoksounds.shazamsounds_id IS NULL 
+            AND (
+                tiktok_sound_last_checked_by_shazam_with_no_result IS NULL 
+                OR tiktok_sound_last_checked_by_shazam_with_no_result <= current_date - INTERVAL '14 days'
+            )
         '''
-        cursor.execute(query, (two_weeks_ago,))
+        cursor.execute(query)
 
         # Fetch all rows
         rows = cursor.fetchall()
 
         # Download each file and save it to the directory
         for row in rows:
-            tiktok_play_url, tiktok_sound_id = row
+            tiktok_play_url, tiktok_sound_id, tiktok_sound_last_checked, shazamsounds_id = row
             result = {"url": tiktok_play_url, "status": "success"}
             try:
                 # Determine the file name based on the URL and tiktok_sound_id

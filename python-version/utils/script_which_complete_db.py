@@ -28,21 +28,27 @@ def fetch_tiktok_play_urls():
         query = '''
         SELECT 
             tiktok_play_url, 
-            public.sounds_data_tiktoksounds.tiktok_sound_id, 
+            tiktok_sound_id, 
             tiktok_sound_last_checked_by_shazam_with_no_result,
-            public.sounds_data_tiktoksounds.shazamsounds_id
+            shazamsounds_id,
+            public.sounds_data_tiktoksoundidsdailytotalvideocount.tiktok_total_video_count
         FROM 
             public.sounds_data_tiktoksounds 
         LEFT JOIN 
             public.sounds_data_shazamsounds 
         ON 
             public.sounds_data_tiktoksounds.shazamsounds_id = public.sounds_data_shazamsounds.id 
+        LEFT JOIN 
+            public.sounds_data_tiktoksoundidsdailytotalvideocount 
+        ON 
+            public.sounds_data_tiktoksounds.id = public.sounds_data_tiktoksoundidsdailytotalvideocount.tiktoksounds_id
         WHERE 
             public.sounds_data_tiktoksounds.shazamsounds_id IS NULL 
             AND (
                 tiktok_sound_last_checked_by_shazam_with_no_result IS NULL 
                 OR tiktok_sound_last_checked_by_shazam_with_no_result <= current_date - INTERVAL '14 days'
             )
+            AND public.sounds_data_tiktoksoundidsdailytotalvideocount.tiktok_total_video_count >= 10
         '''
         cursor.execute(query)
 
@@ -51,7 +57,7 @@ def fetch_tiktok_play_urls():
 
         # Download each file and save it to the directory
         for row in rows:
-            tiktok_play_url, tiktok_sound_id, tiktok_sound_last_checked, shazamsounds_id = row
+            tiktok_play_url, tiktok_sound_id, tiktok_sound_last_checked, shazamsounds_id, tiktok_total_video_count = row
             result = {"url": tiktok_play_url, "status": "success"}
             try:
                 # Determine the file name based on the URL and tiktok_sound_id

@@ -31,17 +31,23 @@ def fetch_tiktok_play_urls():
             tiktok_sound_id, 
             tiktok_sound_last_checked_by_shazam_with_no_result,
             shazamsounds_id,
-            public.sounds_data_tiktoksoundidsdailytotalvideocount.tiktok_total_video_count
+            public.sounds_data_tiktoksoundidsdailytotalvideocount.tiktok_total_video_count,
+            public.sounds_data_tiktoksoundidsdailytotalvideocount.date
         FROM 
             public.sounds_data_tiktoksounds 
         LEFT JOIN 
             public.sounds_data_shazamsounds 
         ON 
             public.sounds_data_tiktoksounds.shazamsounds_id = public.sounds_data_shazamsounds.id 
-        LEFT JOIN 
-            public.sounds_data_tiktoksoundidsdailytotalvideocount 
+        LEFT JOIN (
+            SELECT tiktoksounds_id, MAX(date) as max_date
+            FROM public.sounds_data_tiktoksoundidsdailytotalvideocount
+            GROUP BY tiktoksounds_id
+        ) latest_v ON public.sounds_data_tiktoksounds.id = latest_v.tiktoksounds_id
+        LEFT JOIN public.sounds_data_tiktoksoundidsdailytotalvideocount 
         ON 
-            public.sounds_data_tiktoksounds.id = public.sounds_data_tiktoksoundidsdailytotalvideocount.tiktoksounds_id
+            latest_v.tiktoksounds_id = public.sounds_data_tiktoksoundidsdailytotalvideocount.tiktoksounds_id 
+            AND latest_v.max_date = public.sounds_data_tiktoksoundidsdailytotalvideocount.date
         WHERE 
             public.sounds_data_tiktoksounds.shazamsounds_id IS NULL 
             AND (
@@ -57,7 +63,7 @@ def fetch_tiktok_play_urls():
 
         # Download each file and save it to the directory
         for row in rows:
-            tiktok_play_url, tiktok_sound_id, tiktok_sound_last_checked, shazamsounds_id, tiktok_total_video_count = row
+            tiktok_play_url, tiktok_sound_id, tiktok_sound_last_checked, shazamsounds_id, tiktok_total_video_count, date = row
             result = {"url": tiktok_play_url, "status": "success"}
             try:
                 # Determine the file name based on the URL and tiktok_sound_id

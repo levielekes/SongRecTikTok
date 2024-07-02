@@ -1,9 +1,9 @@
 import os
+import json
 import psycopg2
 import requests
-import json
+
 from dotenv import load_dotenv
-from datetime import datetime, timedelta
 
 # Load environment variables from .env file
 load_dotenv()
@@ -17,12 +17,13 @@ DOWNLOAD_DIR = os.path.join(os.getcwd(), 'python-version/sounds')
 # Create the directory if it doesn't exist
 os.makedirs(DOWNLOAD_DIR, exist_ok=True)
 
+
 def fetch_tiktok_play_urls():
     download_results = []
     try:
         # Connect to the PostgreSQL database using the DATABASE_URL
         connection = psycopg2.connect(DATABASE_URL)
-        
+
         cursor = connection.cursor()
 
         query = '''
@@ -72,7 +73,7 @@ def fetch_tiktok_play_urls():
                 else:
                     file_extension = os.path.splitext(tiktok_play_url)[1]
                     file_name = f"{tiktok_sound_id}{file_extension}"
-                
+
                 file_path = os.path.join(DOWNLOAD_DIR, file_name)
 
                 # Download the file
@@ -105,6 +106,7 @@ def fetch_tiktok_play_urls():
     json_file_path = os.path.join(os.getcwd(), 'download_results.json')
     with open(json_file_path, 'w') as json_file:
         json.dump(download_results, json_file, indent=4)
+
 
 if __name__ == "__main__":
     fetch_tiktok_play_urls()

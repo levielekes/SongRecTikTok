@@ -21,7 +21,7 @@ def extract_shazam_sound_id(url):
     return match.group(1) if match else None
 
 
-def get_label_name(track_info: Dict[str, Any]) -> Optional[str]:
+def get_shazam_label_name(track_info: Dict[str, Any]) -> Optional[str]:
     sections = track_info.get("sections", [])
 
     if not sections:
@@ -67,7 +67,7 @@ def update_shazam_info(data):
             shazam_name_of_sound = share_info.get("subject", None)
             shazam_track_url = share_info.get("href", None)
 
-            label_name = get_label_name(track_info)
+            shazam_label_name = get_shazam_label_name(track_info)
 
             # Extract Shazam sound ID from the URL
             shazam_sound_id = extract_shazam_sound_id(shazam_track_url) if shazam_track_url else None
@@ -79,7 +79,7 @@ def update_shazam_info(data):
             print(f"shazam_name_of_sound: {shazam_name_of_sound}")
             print(f"shazam_track_url: {shazam_track_url}")
             print(f"shazam_sound_id: {shazam_sound_id}")
-            print(f"label_name: {label_name}")
+            print(f"shazam_label_name: {shazam_label_name}")
 
             # Check if any of the required fields are missing
             if not all([shazam_image_url, shazam_name_of_sound, shazam_sound_id]):
@@ -96,7 +96,7 @@ def update_shazam_info(data):
 
             try:
                 shazamsounds_id = create_or_update_shazam_sound(
-                    cursor, shazam_sound_id, shazam_image_url, shazam_name_of_sound, label_name)
+                    cursor, shazam_sound_id, shazam_image_url, shazam_name_of_sound, shazam_label_name)
 
                 update_query = """
                     UPDATE public.sounds_data_tiktoksounds
@@ -139,29 +139,29 @@ def update_shazam_info(data):
         print(f"Error: {e}")
 
 
-def create_or_update_shazam_sound(cursor, shazam_sound_id, shazam_image_url, shazam_name_of_sound, label_name):
-    check_query = "SELECT id, label_name FROM public.sounds_data_shazamsounds WHERE shazam_sound_id = %s;"
+def create_or_update_shazam_sound(cursor, shazam_sound_id, shazam_image_url, shazam_name_of_sound, shazam_label_name):
+    check_query = "SELECT id, shazam_label_name FROM public.sounds_data_shazamsounds WHERE shazam_sound_id = %s;"
     cursor.execute(check_query, (shazam_sound_id,))
     existing_record = cursor.fetchone()
 
     if existing_record:
-        shazamsounds_id, existing_label_name = existing_record
+        shazamsounds_id, existing_shazam_label_name = existing_record
 
-        if (label_name and label_name != existing_label_name):
+        if (shazam_label_name and shazam_label_name != existing_shazam_label_name):
             update_query = """
                 UPDATE public.sounds_data_shazamsounds
-                SET label_name = %s
+                SET shazam_label_name = %s
                 WHERE id = %s;
             """
-            cursor.execute(update_query, (label_name, shazamsounds_id))
+            cursor.execute(update_query, (shazam_label_name, shazamsounds_id))
     else:
         # Insert into public.sounds_data_shazamsounds
         insert_query = """
-            INSERT INTO public.sounds_data_shazamsounds (shazam_image_url, shazam_name_of_sound, shazam_sound_id, label_name)
+            INSERT INTO public.sounds_data_shazamsounds (shazam_image_url, shazam_name_of_sound, shazam_sound_id, shazam_label_name)
             VALUES (%s, %s, %s, %s)
             RETURNING id;
         """
-        cursor.execute(insert_query, (shazam_image_url, shazam_name_of_sound, shazam_sound_id, label_name))
+        cursor.execute(insert_query, (shazam_image_url, shazam_name_of_sound, shazam_sound_id, shazam_label_name))
         shazamsounds_id = cursor.fetchone()[0]
 
         print(f"Inserted new Shazam sound ID {shazam_sound_id} with ID {shazamsounds_id}.")

@@ -32,6 +32,7 @@ def fetch_tiktok_play_urls():
             tiktok_sound_id, 
             tiktok_sound_last_checked_by_shazam_with_no_result,
             shazamsounds_id,
+            public.sounds_data_shazamsounds.shazam_label_name,
             public.sounds_data_tiktoksoundidsdailytotalvideocount.tiktok_total_video_count,
             public.sounds_data_tiktoksoundidsdailytotalvideocount.date
         FROM 
@@ -50,12 +51,16 @@ def fetch_tiktok_play_urls():
             latest_v.tiktoksounds_id = public.sounds_data_tiktoksoundidsdailytotalvideocount.tiktoksounds_id 
             AND latest_v.max_date = public.sounds_data_tiktoksoundidsdailytotalvideocount.date
         WHERE 
-            public.sounds_data_tiktoksounds.shazamsounds_id IS NULL 
-            AND (
-                tiktok_sound_last_checked_by_shazam_with_no_result IS NULL 
-                OR tiktok_sound_last_checked_by_shazam_with_no_result <= current_date - INTERVAL '14 days'
+            (
+                public.sounds_data_tiktoksounds.shazamsounds_id IS NULL 
+                AND (
+                    tiktok_sound_last_checked_by_shazam_with_no_result IS NULL 
+                    OR tiktok_sound_last_checked_by_shazam_with_no_result <= current_date - INTERVAL '14 days'
+                )
+                AND public.sounds_data_tiktoksoundidsdailytotalvideocount.tiktok_total_video_count >= 10
             )
-            AND public.sounds_data_tiktoksoundidsdailytotalvideocount.tiktok_total_video_count >= 10
+            OR 
+            public.sounds_data_shazamsounds.shazam_label_name IS NULL
         '''
         cursor.execute(query)
 
@@ -64,7 +69,7 @@ def fetch_tiktok_play_urls():
 
         # Download each file and save it to the directory
         for row in rows:
-            tiktok_play_url, tiktok_sound_id, tiktok_sound_last_checked, shazamsounds_id, tiktok_total_video_count, date = row
+            tiktok_play_url, tiktok_sound_id = row[0], row[1]
             result = {"url": tiktok_play_url, "status": "success"}
             try:
                 # Determine the file name based on the URL and tiktok_sound_id

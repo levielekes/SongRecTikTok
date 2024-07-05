@@ -2,7 +2,7 @@ import os
 import json
 import psycopg2
 import requests
-
+from psycopg2.extras import DictCursor
 from dotenv import load_dotenv
 
 # Load environment variables from .env file
@@ -17,14 +17,12 @@ DOWNLOAD_DIR = os.path.join(os.getcwd(), 'python-version/sounds')
 # Create the directory if it doesn't exist
 os.makedirs(DOWNLOAD_DIR, exist_ok=True)
 
-
 def fetch_tiktok_play_urls():
     download_results = []
     try:
         # Connect to the PostgreSQL database using the DATABASE_URL
         connection = psycopg2.connect(DATABASE_URL)
-
-        cursor = connection.cursor()
+        cursor = connection.cursor(cursor_factory=DictCursor)  # Use DictCursor to fetch rows as dictionaries
 
         query = '''
         SELECT 
@@ -69,7 +67,8 @@ def fetch_tiktok_play_urls():
 
         # Download each file and save it to the directory
         for row in rows:
-            tiktok_play_url, tiktok_sound_id = row[0], row[1]
+            tiktok_play_url = row['tiktok_play_url']
+            tiktok_sound_id = row['tiktok_sound_id']
             result = {"url": tiktok_play_url, "status": "success"}
             try:
                 # Determine the file name based on the URL and tiktok_sound_id
@@ -111,7 +110,6 @@ def fetch_tiktok_play_urls():
     json_file_path = os.path.join(os.getcwd(), 'download_results.json')
     with open(json_file_path, 'w') as json_file:
         json.dump(download_results, json_file, indent=4)
-
 
 if __name__ == "__main__":
     fetch_tiktok_play_urls()

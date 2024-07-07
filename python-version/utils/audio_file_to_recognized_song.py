@@ -63,22 +63,24 @@ def main():
     
     # Clean the JSON file by opening it in write mode and closing it immediately
     with open(json_output_path, 'w', encoding='utf-8') as json_file:
-        pass
-    
-    all_results = []
+        json.dump([], json_file)
 
     for file_name in os.listdir(SOUNDS_DIR):
         if file_name.endswith('.wav') or file_name.endswith('.mp3'):
             file_path = join(SOUNDS_DIR, file_name)
             print(f"Processing {file_path}")
             file_path, result = process_audio_file(file_path)
-            all_results.append({"file": file_path, "result": result})
+            
+            # Write the result to the JSON file immediately
+            with open(json_output_path, 'r+', encoding='utf-8') as json_file:
+                all_results = json.load(json_file)
+                all_results.append({"file": file_path, "result": result})
+                json_file.seek(0)
+                json.dump(all_results, json_file, indent=4, ensure_ascii=False)
+                json_file.truncate()
 
             # Sleep for 15 seconds to avoid rate limit
             time.sleep(15)
-
-    with open(json_output_path, 'w', encoding='utf-8') as json_file:
-        json.dump(all_results, json_file, indent=4, ensure_ascii=False)
 
     print(f"All results have been saved to {json_output_path}")
 

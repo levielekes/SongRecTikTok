@@ -17,6 +17,7 @@ DOWNLOAD_DIR = os.path.join(os.getcwd(), 'python-version/sounds')
 # Create the directory if it doesn't exist
 os.makedirs(DOWNLOAD_DIR, exist_ok=True)
 
+
 def fetch_tiktok_play_urls():
     download_results = []
     try:
@@ -48,17 +49,24 @@ def fetch_tiktok_play_urls():
         ON 
             latest_v.tiktoksounds_id = public.sounds_data_tiktoksoundidsdailytotalvideocount.tiktoksounds_id 
             AND latest_v.max_date = public.sounds_data_tiktoksoundidsdailytotalvideocount.date
-        WHERE 
-            (
-                public.sounds_data_tiktoksounds.shazamsounds_id IS NULL 
-                AND (
-                    tiktok_sound_last_checked_by_shazam_with_no_result IS NULL 
-                    OR tiktok_sound_last_checked_by_shazam_with_no_result <= current_date - INTERVAL '14 days'
+        WHERE
+            public.sounds_data_tiktoksounds.status = 0
+            AND (
+                    (
+                    public.sounds_data_tiktoksounds.shazamsounds_id IS NULL 
+                    AND (
+                        tiktok_sound_last_checked_by_shazam_with_no_result IS NULL 
+                        OR tiktok_sound_last_checked_by_shazam_with_no_result <= current_date - INTERVAL '14 days'
+                    )
+                    AND public.sounds_data_tiktoksoundidsdailytotalvideocount.tiktok_total_video_count >= 10
                 )
-                AND public.sounds_data_tiktoksoundidsdailytotalvideocount.tiktok_total_video_count >= 10
+                OR 
+                (
+                    public.sounds_data_shazamsounds.shazam_label_name IS NULL AND
+                    public.sounds_data_shazamsounds.label_id IS NULL
+                )
             )
-            OR 
-            public.sounds_data_shazamsounds.shazam_label_name IS NULL
+            LIMIT 4000
         '''
         cursor.execute(query)
 
@@ -110,6 +118,7 @@ def fetch_tiktok_play_urls():
     json_file_path = os.path.join(os.getcwd(), 'download_results.json')
     with open(json_file_path, 'w') as json_file:
         json.dump(download_results, json_file, indent=4)
+
 
 if __name__ == "__main__":
     fetch_tiktok_play_urls()

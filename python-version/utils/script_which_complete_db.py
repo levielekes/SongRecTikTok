@@ -58,12 +58,13 @@ def fetch_tiktok_play_urls():
                         tiktok_sound_last_checked_by_shazam_with_no_result IS NULL 
                         OR tiktok_sound_last_checked_by_shazam_with_no_result <= current_date - INTERVAL '14 days'
                     )
-                    AND public.sounds_data_tiktoksoundidsdailytotalvideocount.tiktok_total_video_count >= 10
+                    AND public.sounds_data_tiktoksoundidsdailytotalvideocount.tiktok_total_video_count >= 50
                 )
                 OR 
                 (
                     public.sounds_data_shazamsounds.shazam_label_name IS NULL AND
                     public.sounds_data_shazamsounds.label_id IS NULL
+                    AND public.sounds_data_tiktoksoundidsdailytotalvideocount.tiktok_total_video_count >= 50
                 )
             )
             LIMIT 4000

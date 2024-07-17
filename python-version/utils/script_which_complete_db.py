@@ -5,6 +5,7 @@ import requests
 from psycopg2.extras import DictCursor
 from dotenv import load_dotenv
 
+from logging_config import configure_logger
 # Load environment variables from .env file
 load_dotenv()
 
@@ -12,10 +13,12 @@ load_dotenv()
 DATABASE_URL = os.getenv('DATABASE_URL')
 
 # Define the directory to save the downloaded files
-DOWNLOAD_DIR = os.path.join(os.getcwd(), 'python-version/sounds')
+DOWNLOAD_DIR = os.getenv('SOUNDS_DIR', os.path.join(os.getcwd(), 'python-version/sounds'))
 
 # Create the directory if it doesn't exist
 os.makedirs(DOWNLOAD_DIR, exist_ok=True)
+
+logger = configure_logger()
 
 
 def fetch_tiktok_play_urls():
@@ -31,7 +34,6 @@ def fetch_tiktok_play_urls():
             tiktok_sound_id, 
             tiktok_sound_last_checked_by_shazam_with_no_result,
             shazamsounds_id,
-            public.sounds_data_shazamsounds.shazam_label_name,
             public.sounds_data_tiktoksoundidsdailytotalvideocount.tiktok_total_video_count,
             public.sounds_data_tiktoksoundidsdailytotalvideocount.date
         FROM 
@@ -62,7 +64,6 @@ def fetch_tiktok_play_urls():
                 )
                 OR 
                 (
-                    public.sounds_data_shazamsounds.shazam_label_name IS NULL AND
                     public.sounds_data_shazamsounds.label_id IS NULL
                     AND public.sounds_data_tiktoksoundidsdailytotalvideocount.tiktok_total_video_count >= 50
                 )
@@ -78,14 +79,14 @@ def fetch_tiktok_play_urls():
         for row in rows:
             tiktok_play_url = row['tiktok_play_url']
             tiktok_sound_id = row['tiktok_sound_id']
-            result = {"url": tiktok_play_url, "status": "success"}
+            result = {'url': tiktok_play_url, 'status': 'success'}
             try:
                 # Determine the file name based on the URL and tiktok_sound_id
                 if tiktok_play_url.endswith('.mp3'):
-                    file_name = f"{tiktok_sound_id}.mp3"
+                    file_name = f'{tiktok_sound_id}.mp3'
                 else:
                     file_extension = os.path.splitext(tiktok_play_url)[1]
-                    file_name = f"{tiktok_sound_id}{file_extension}"
+                    file_name = f'{tiktok_sound_id}{file_extension}'
 
                 file_path = os.path.join(DOWNLOAD_DIR, file_name)
 
@@ -97,19 +98,19 @@ def fetch_tiktok_play_urls():
                 with open(file_path, 'wb') as file:
                     file.write(response.content)
 
-                result["file_path"] = file_path
+                result['file_path'] = file_path
 
                 # Print the tiktok_play_url to the terminal
-                print(f"Downloaded: {tiktok_play_url}")
+                logger.info('Downloaded: %s', tiktok_play_url)
             except Exception as download_error:
-                result["status"] = "error"
-                result["error_message"] = str(download_error)
-                print(f"Error downloading {tiktok_play_url}: {download_error}")
+                result['status'] = 'error'
+                result['error_message'] = str(download_error)
+                logger.error('Error downloading %s: %s', tiktok_play_url, download_error, exc_info=True)
             finally:
                 download_results.append(result)
 
     except Exception as error:
-        print(f"Error fetching data: {error}")
+        logger.error('Error fetching data: %s', error, exc_info=True)
     finally:
         if connection:
             cursor.close()
@@ -117,9 +118,9 @@ def fetch_tiktok_play_urls():
 
     # Save results to a JSON file
     json_file_path = os.path.join(os.getcwd(), 'download_results.json')
-    with open(json_file_path, 'w') as json_file:
+    with open(json_file_path, 'w', encoding='UTF-8') as json_file:
         json.dump(download_results, json_file, indent=4)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     fetch_tiktok_play_urls()

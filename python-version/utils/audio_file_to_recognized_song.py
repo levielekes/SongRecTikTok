@@ -11,6 +11,8 @@ from pydub import AudioSegment
 from sys import stderr
 from json import dumps
 
+from dotenv import load_dotenv
+
 UTILS_DIR = realpath(dirname(__file__))
 SCRIPT_DIR = dirname(realpath(__file__))
 ROOT_DIR = realpath(SCRIPT_DIR + '/..')
@@ -21,8 +23,11 @@ sys.path.append(FINGERPRINTING_DIR)
 from communication import recognize_song_from_signature
 from algorithm import SignatureGenerator
 
+load_dotenv()
+
 # Correct SOUNDS_DIR path
-SOUNDS_DIR = join(ROOT_DIR, 'sounds')
+SOUNDS_DIR = os.getenv('SOUNDS_DIR', join(ROOT_DIR, 'sounds'))
+
 
 def process_audio_file(file_path):
     try:
@@ -58,9 +63,10 @@ def process_audio_file(file_path):
     except Exception as e:
         return file_path, {"error": str(e)}
 
+
 def main():
-    json_output_path = join(SCRIPT_DIR, 'shazam_api_response.json')
-    
+    json_output_path = os.getenv('SHAZAM_API_RESPONSE_PATH', join(SCRIPT_DIR, 'shazam_api_response.json'))
+
     # Clean the JSON file by opening it in write mode and closing it immediately
     with open(json_output_path, 'w', encoding='utf-8') as json_file:
         json.dump([], json_file)
@@ -70,7 +76,7 @@ def main():
             file_path = join(SOUNDS_DIR, file_name)
             print(f"Processing {file_path}")
             file_path, result = process_audio_file(file_path)
-            
+
             # Write the result to the JSON file immediately
             with open(json_output_path, 'r+', encoding='utf-8') as json_file:
                 all_results = json.load(json_file)
@@ -83,6 +89,7 @@ def main():
             time.sleep(7)
 
     print(f"All results have been saved to {json_output_path}")
+
 
 if __name__ == '__main__':
     main()

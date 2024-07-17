@@ -79,8 +79,8 @@ def main():
                 json.dump(all_results, json_file, indent=4, ensure_ascii=False)
                 json_file.truncate()
 
-            # Sleep for 15 seconds to avoid rate limit
-            time.sleep(15)
+            # Sleep for 7 seconds to avoid rate limit
+            time.sleep(7)
 
     print(f"All results have been saved to {json_output_path}")
 

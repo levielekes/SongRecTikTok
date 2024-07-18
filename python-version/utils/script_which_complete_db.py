@@ -68,6 +68,7 @@ def fetch_tiktok_play_urls():
                     AND public.sounds_data_tiktoksoundidsdailytotalvideocount.tiktok_total_video_count >= 50
                 )
             )
+            ORDER BY RANDOM()
             LIMIT 4000
         '''
         cursor.execute(query)

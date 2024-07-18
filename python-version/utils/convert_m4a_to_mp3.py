@@ -1,8 +1,11 @@
 import os
 from pydub import AudioSegment
 from dotenv import load_dotenv
+from logging_config import configure_logger
 
 load_dotenv()
+
+logger = configure_logger()
 
 # Define source and destination directories
 source_dir = os.getenv('SOUNDS_DIR')
@@ -15,18 +18,19 @@ os.makedirs(destination_dir, exist_ok=True)
 for filename in os.listdir(source_dir):
     # Define the full path for the source file
     source_path = os.path.join(source_dir, filename)
-    
+
     # Define the full path for the destination file
     base, ext = os.path.splitext(filename)
     destination_path = os.path.join(destination_dir, f"{base}.mp3")
-    
+
+    logger.info('Converting file to MP3: %s', filename)
     # Check if the file is not an MP3
     if ext.lower() != '.mp3':
         # Convert the file to MP3
         audio = AudioSegment.from_file(source_path)
         audio.export(destination_path, format='mp3')
-        
+
         # Remove the original file
         os.remove(source_path)
 
-print("Conversion complete and files moved.")
+logger.info('Conversion complete and files moved.')

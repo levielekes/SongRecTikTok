@@ -44,6 +44,8 @@ class RateLimiter:
             time.sleep(self.max_time_unit)
             self.current_requests = 0
 
+    def reset(self):
+        self.current_requests = 0
 
 def process_audio_file(file_path: str, rate_limiter: RateLimiter):
     try:
@@ -76,6 +78,7 @@ def process_audio_file(file_path: str, rate_limiter: RateLimiter):
                     logger.info('Rate limit reached, waiting for %s seconds...', rate_limiter.max_time_unit)
                     logger.info('Results: %s', dumps(results, indent=4, ensure_ascii=False))
                     time.sleep(rate_limiter.max_time_unit)
+                    rate_limiter.reset()
                     continue
                 else:
                     logger.error('Error recognizing song: %s', results['error'])

@@ -6,14 +6,23 @@ from datetime import datetime
 from typing import Optional, Dict, Any
 
 import psycopg2
-from psycopg2 import sql
+from psycopg2.extras import DictCursor
+
 from dotenv import load_dotenv
+
+from logging_config import configure_logger
 
 # Load environment variables from .env file
 load_dotenv()
 
 # Get database URL from environment variables
 DATABASE_URL = os.getenv('DATABASE_URL')
+
+logger = configure_logger()
+
+
+def get_db_connection():
+    return psycopg2.connect(DATABASE_URL)
 
 
 def extract_shazam_sound_id(url):
@@ -22,162 +31,196 @@ def extract_shazam_sound_id(url):
 
 
 def get_shazam_label_name(track_info: Dict[str, Any]) -> Optional[str]:
-    sections = track_info.get("sections", [])
+    sections = track_info.get('sections', [])
 
     if not sections:
         return None
 
-    song_section = next((section for section in sections if section.get("type") == "SONG"), None)
+    song_section = next((section for section in sections if section.get('type') == 'SONG'), None)
 
     if not song_section:
         return None
 
-    metadata = song_section.get("metadata", [])
+    metadata = song_section.get('metadata', [])
 
     if not metadata:
         return None
 
-    # Find the metadata with title "Label"
-    label = next((meta for meta in metadata if meta.get("title") == "Label"), {})
+    # Find the metadata with title 'Label'
+    label = next((meta for meta in metadata if meta.get('title') == 'Label'), {})
 
     # Get the text value from the label
-    label_value = label.get("text", None)
+    label_value = label.get('text', None)
 
     return label_value
 
 
 def get_shazam_play_url(track_info: Dict[str, Any]) -> Optional[str]:
-    hub_info = track_info.get("hub", {})
-    actions = hub_info.get("actions", [])
+    hub_info = track_info.get('hub', {})
+    actions = hub_info.get('actions', [])
 
-    # Find the action with type "uri" and "uri" containing "https://audio-ssl"
+    # Find the action with type 'uri' and 'uri' containing 'https://audio-ssl'
     for action in actions:
-        if action.get("type") == "uri" and "https://audio-ssl" in action.get("uri", ""):
-            return action.get("uri")
+        if action.get('type') == 'uri' and 'https://audio-ssl' in action.get('uri', ''):
+            return action.get('uri')
     return None
+
+
+def get_existing_labels(cursor):
+    query = 'SELECT id, name FROM public.sounds_data_labels'
+    cursor.execute(query)
+
+    labels = {}
+    for record in cursor.fetchall():
+        labels[record['name']] = record['id']
+
+    return labels
 
 
 def update_shazam_info(data):
     try:
         # Connect to postgres DB
-        conn = psycopg2.connect(DATABASE_URL)
-        # Create a cursor object
-        cursor = conn.cursor()
+        with get_db_connection() as conn:
+            # Create a cursor object
+            with conn.cursor(cursor_factory=DictCursor) as cursor:
+                existing_labels = get_existing_labels(cursor)
 
-        for item in data:
-            file_path = item.get("file", "")
-            tiktok_sound_id = os.path.splitext(os.path.basename(file_path))[0]
+                success_count = 0
+                failed_count = 0
 
-            result = item.get("result", {})
-            track_info = result.get("track", {})
-            share_info = track_info.get("share", {})
-            images_info = track_info.get("images", {})
+                for item in data:
+                    file_path = item.get('file', '')
+                    tiktok_sound_id = os.path.splitext(os.path.basename(file_path))[0]
 
-            # Extract the values as specified
-            shazam_image_url = images_info.get("background", None)
-            shazam_name_of_sound = share_info.get("subject", None)
-            shazam_track_url = share_info.get("href", None)
+                    result = item.get('result', {})
 
-            shazam_label_name = get_shazam_label_name(track_info)
-            shazam_play_url = get_shazam_play_url(track_info)
+                    track_info = result.get('track', {})
+                    share_info = track_info.get('share', {})
+                    images_info = track_info.get('images', {})
 
-            # Extract Shazam sound ID from the URL
-            shazam_sound_id = extract_shazam_sound_id(shazam_track_url) if shazam_track_url else None
+                    # Extract the values as specified
+                    shazam_image_url = images_info.get('background', None)
+                    shazam_name_of_sound = share_info.get('subject', None)
+                    shazam_track_url = share_info.get('href', None)
 
-            # Debug print statements
-            print(f"file_path: {file_path}")
-            print(f"tiktok_sound_id: {tiktok_sound_id}")
-            print(f"shazam_image_url: {shazam_image_url}")
-            print(f"shazam_name_of_sound: {shazam_name_of_sound}")
-            print(f"shazam_track_url: {shazam_track_url}")
-            print(f"shazam_sound_id: {shazam_sound_id}")
-            print(f"shazam_label_name: {shazam_label_name}")
-            print(f"shazam_play_url: {shazam_play_url}")
+                    shazam_label_name = get_shazam_label_name(track_info)
+                    shazam_play_url = get_shazam_play_url(track_info)
 
-            # Check if any of the required fields are missing
-            if not all([shazam_image_url, shazam_name_of_sound, shazam_sound_id, shazam_play_url]):
-                print("Missing required Shazam data, skipping insert.")
+                    # Extract Shazam sound ID from the URL
+                    shazam_sound_id = extract_shazam_sound_id(shazam_track_url) if shazam_track_url else None
 
-                # Update tiktok_sound_last_checked_by_shazam_with_no_result if shazamsounds_id is None
-                update_query_no_result = """
-                    UPDATE public.sounds_data_tiktoksounds
-                    SET tiktok_sound_last_checked_by_shazam_with_no_result = %s
-                    WHERE tiktok_sound_id = %s AND shazamsounds_id IS NULL;
-                """
-                cursor.execute(update_query_no_result, (datetime.now(), tiktok_sound_id))
-                continue
+                    # Debug print statements
+                    logger.info('file_path: %s\ntiktok_sound_id: %s', file_path, tiktok_sound_id)
+                    logger.info('shazam_image_url: %s\nshazam_name_of_sound: %s\nshazam_track_url: %s',
+                                shazam_image_url, shazam_name_of_sound, shazam_track_url)
+                    logger.info('shazam_sound_id: %s\nshazam_label_name: %s\nshazam_play_url: %s',
+                                shazam_sound_id, shazam_label_name, shazam_play_url)
 
-            try:
-                shazamsounds_id = create_or_update_shazam_sound(
-                    cursor, shazam_sound_id, shazam_image_url, shazam_name_of_sound, shazam_label_name, shazam_play_url)
+                    # Check if any of the required fields are missing
+                    if not all([shazam_image_url, shazam_name_of_sound, shazam_sound_id, shazam_play_url]):
+                        logger.info('Missing required Shazam data, skipping insert.')
+                        # Log missing items and continue to the next item
 
-                update_query = """
-                    UPDATE public.sounds_data_tiktoksounds
-                    SET shazamsounds_id = %s
-                    WHERE tiktok_sound_id = %s;
-                """
-                cursor.execute(update_query, (shazamsounds_id, tiktok_sound_id))
-                print(f"Updated TikTok sound ID {tiktok_sound_id} with Shazam sound ID {shazamsounds_id}.")
+                        failed_count += 1
+                        # Update tiktok_sound_last_checked_by_shazam_with_no_result if shazamsounds_id is None
+                        update_query_no_result = """
+                            UPDATE public.sounds_data_tiktoksounds
+                            SET tiktok_sound_last_checked_by_shazam_with_no_result = 
+                            CASE    WHEN (tiktok_sound_fetch_shazam_tries + 1) %% 3 = 0 
+                                    THEN tiktok_sound_last_checked_by_shazam_with_no_result 
+                                    ELSE %s
+                            END,
+                            tiktok_sound_fetch_shazam_tries = tiktok_sound_fetch_shazam_tries + 1        
+                            WHERE tiktok_sound_id = %s AND shazamsounds_id IS NULL;
+                        """
 
-            except Exception as e:
-                print(f"Error: {e}")
-                continue
+                        cursor.execute(update_query_no_result, (datetime.now(), tiktok_sound_id))
+                        continue
 
-        # Commit the changes
-        conn.commit()
+                    try:
+                        shazamsounds_id = create_or_update_shazam_sound(
+                            cursor, shazam_sound_id, shazam_image_url, shazam_name_of_sound, shazam_label_name,
+                            shazam_play_url, existing_labels)
 
-        # Print updated records
-        for item in data:
-            file_path = item.get("file", "")
-            tiktok_sound_id = os.path.splitext(os.path.basename(file_path))[0]
+                        update_query = """
+                            UPDATE public.sounds_data_tiktoksounds
+                            SET shazamsounds_id = %s
+                            WHERE tiktok_sound_id = %s;
+                        """
+                        cursor.execute(update_query, (shazamsounds_id, tiktok_sound_id))
+                        logger.info('Updated TikTok sound ID %s with Shazam sound ID %s.',
+                                    tiktok_sound_id, shazamsounds_id)
 
-            select_query = sql.SQL("""
-                SELECT tiktok_sound_id, shazamsounds_id
-                FROM public.sounds_data_tiktoksounds
-                WHERE tiktok_sound_id = %s
-            """)
-            cursor.execute(select_query, (tiktok_sound_id,))
-            record = cursor.fetchone()
-            if record:
-                print(f"Updated record for tiktok_sound_id: {tiktok_sound_id}")
-                print(f"  shazamsounds_id: {record[1]}")
-                print("\n")
+                        success_count += 1
+                    except Exception as ex:
+                        logger.error('Error while updating Shazam info: %s', ex, exc_info=True)
+                        failed_count += 1
 
-        # Close the cursor and connection
-        cursor.close()
-        conn.close()
-        print("Database updated successfully.")
+                        continue
 
+                # Commit the changes
+                conn.commit()
+
+                logger.info('Successfully updated %s TikTok sounds with Shazam info.', success_count)
+                logger.info('Failed to update %s TikTok sounds with Shazam info.', failed_count)
     except Exception as e:
-        print(f"Error: {e}")
+        logger.error('Error while updating Shazam info: %s', e, exc_info=True)
 
 
-def create_or_update_shazam_sound(cursor, shazam_sound_id, shazam_image_url, shazam_name_of_sound, shazam_label_name, shazam_play_url):
-    check_query = "SELECT id, shazam_label_name FROM public.sounds_data_shazamsounds WHERE shazam_sound_id = %s;"
+def get_or_create_label(cursor, label_name, existing_labels):
+    if not label_name:
+        return None
+
+    label_id = existing_labels.get(label_name, None)
+
+    if not label_id:
+        # Insert the new label_name
+        insert_query = """
+            INSERT INTO public.sounds_data_labels (name, inserted)
+            VALUES (%s, NOW())
+            RETURNING id;
+        """
+        cursor.execute(insert_query, (label_name,))
+        label_id = cursor.fetchone()[0]
+        existing_labels[label_name] = label_id
+
+    return label_id
+
+
+def create_or_update_shazam_sound(
+    cursor, shazam_sound_id, shazam_image_url, shazam_name_of_sound,
+    shazam_label_name, shazam_play_url, existing_labels
+):
+    check_query = 'SELECT id, label_id FROM public.sounds_data_shazamsounds WHERE shazam_sound_id = %s;'
     cursor.execute(check_query, (shazam_sound_id,))
     existing_record = cursor.fetchone()
 
-    if existing_record:
-        shazamsounds_id, existing_shazam_label_name = existing_record
+    label_id = get_or_create_label(cursor, shazam_label_name, existing_labels)
 
-        if shazam_label_name and shazam_label_name != existing_shazam_label_name:
+    if existing_record:
+        shazamsounds_id, existing_label_id = existing_record
+
+        if label_id != existing_label_id:
             update_query = """
-                UPDATE public.sounds_data_shazamsounds
-                SET shazam_label_name = %s
-                WHERE id = %s;
+                UPDATE  public.sounds_data_shazamsounds
+                SET     label_id = %s
+                WHERE   id = %s;
             """
-            cursor.execute(update_query, (shazam_label_name, shazamsounds_id))
+
+            cursor.execute(update_query, (label_id, shazamsounds_id))
     else:
         # Insert into public.sounds_data_shazamsounds
         insert_query = """
-            INSERT INTO public.sounds_data_shazamsounds (shazam_image_url, shazam_name_of_sound, shazam_sound_id, shazam_label_name, shazam_play_url)
+            INSERT INTO public.sounds_data_shazamsounds (shazam_image_url, shazam_name_of_sound, shazam_sound_id, 
+                        shazam_play_url, label_id)
             VALUES (%s, %s, %s, %s, %s)
             RETURNING id;
         """
-        cursor.execute(insert_query, (shazam_image_url, shazam_name_of_sound, shazam_sound_id, shazam_label_name, shazam_play_url))
+        cursor.execute(insert_query, (shazam_image_url, shazam_name_of_sound,
+                       shazam_sound_id, shazam_play_url, label_id))
         shazamsounds_id = cursor.fetchone()[0]
 
-        print(f"Inserted new Shazam sound ID {shazam_sound_id} with ID {shazamsounds_id}.")
+        logger.info('Inserted new Shazam sound ID %s with ID %s.', shazam_sound_id, shazamsounds_id)
 
     return shazamsounds_id
 
@@ -188,22 +231,24 @@ def clean_sounds_directory(directory_path):
             file_path = os.path.join(directory_path, filename)
             if os.path.isfile(file_path):
                 os.unlink(file_path)
-        print(f"Cleaned all files in directory: {directory_path}")
+        logger.info('Cleaned all files in directory: %s', directory_path)
     except Exception as e:
-        print(f"Error while cleaning directory: {e}")
+        logger.error('Error while cleaning directory: %s', e, exc_info=True)
 
 
 def analyse_shazam_api_response_json():
+    logger.info('Start analyzing Shazam API response JSON')
+
     # Load the JSON data from the file with UTF-8 encoding
-    shazam_api_response_path = os.getenv('API_SHAZAM_API_RESPONSE_PATH')
+    shazam_api_response_path = os.getenv('SHAZAM_API_RESPONSE_PATH')
     with open(shazam_api_response_path, 'r', encoding='utf-8') as file:
         data = json.load(file)
 
     update_shazam_info(data)
 
     # Clean the sounds directory
-    clean_sounds_directory(os.getenv('SOUNDS_DIR_FRONTEND_REFRESH_API'))
+    #clean_sounds_directory(os.getenv('SOUNDS_DIR'))
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     analyse_shazam_api_response_json()

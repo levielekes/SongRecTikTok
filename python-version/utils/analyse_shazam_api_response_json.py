@@ -247,7 +247,7 @@ def analyse_shazam_api_response_json():
     update_shazam_info(data)
 
     # Clean the sounds directory
-    clean_sounds_directory(os.getenv('SOUNDS_DIR'))
+    #clean_sounds_directory(os.getenv('SOUNDS_DIR'))
 
 
 if __name__ == '__main__':

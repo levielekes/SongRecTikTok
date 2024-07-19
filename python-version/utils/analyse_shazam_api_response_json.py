@@ -120,14 +120,20 @@ def update_shazam_info(data):
                     if not all([shazam_image_url, shazam_name_of_sound, shazam_sound_id, shazam_play_url]):
                         logger.info('Missing required Shazam data, skipping insert.')
                         # Log missing items and continue to the next item
-                        
+
                         failed_count += 1
                         # Update tiktok_sound_last_checked_by_shazam_with_no_result if shazamsounds_id is None
                         update_query_no_result = """
                             UPDATE public.sounds_data_tiktoksounds
-                            SET tiktok_sound_last_checked_by_shazam_with_no_result = %s
+                            SET tiktok_sound_last_checked_by_shazam_with_no_result = 
+                            CASE    WHEN (tiktok_sound_fetch_shazam_tries + 1) %% 3 = 0 
+                                    THEN tiktok_sound_last_checked_by_shazam_with_no_result 
+                                    ELSE %s
+                            END,
+                            tiktok_sound_fetch_shazam_tries = tiktok_sound_fetch_shazam_tries + 1        
                             WHERE tiktok_sound_id = %s AND shazamsounds_id IS NULL;
                         """
+
                         cursor.execute(update_query_no_result, (datetime.now(), tiktok_sound_id))
                         continue
 

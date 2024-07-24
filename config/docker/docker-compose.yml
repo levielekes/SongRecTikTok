@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  song_rec:
+    build:
+      context: ../..
+      dockerfile: config/docker/Dockerfile
+    image: viorelnanaured/songrectiktok:${DOCKER_TAG}
+    container_name: songrec-tiktok
+    volumes:
+      - .env.app:/app/.env
+      - app_data:/app/data
+      - logs:/var/log/songrectiktok/
+    extra_hosts:
+    - "host.docker.internal:host-gateway"  
+    networks:
+      - songrec-network
+
+volumes:
+  app_data:
+    name: songrec-tiktok-app-data
+  logs:
+    name: songrec-tiktok-logs
+
+networks:
+  songrec-network:
+    ipam:
+      config:
+        - subnet: ${SONGREC_NETWORK_SUBNET}
+          gateway: ${SONGREC_NETWORK_GATEWAY}

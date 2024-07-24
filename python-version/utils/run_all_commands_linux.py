@@ -1,4 +1,8 @@
+import time
 import subprocess
+from logging_config import configure_logger
+
+logger = configure_logger()
 
 commands = [
     'python3 python-version/utils/script_which_complete_db.py',
@@ -7,5 +11,31 @@ commands = [
     'python3 python-version/utils/analyse_shazam_api_response_json.py',
 ]
 
-for command in commands:
-    subprocess.run(command, shell=True)
+
+def run_command(command):
+    """Run a single command and handle errors."""
+    try:
+        subprocess.run(command, check=True, shell=True)
+        logger.info('Command %s has been run', command)
+    except subprocess.CalledProcessError as e:
+        logger.error('Error running command %s: %s', command, e, exc_info=True)
+        return False
+
+    return True
+
+
+def run_commands_indefinitely():
+    logger.info('Start running all commands')
+
+    while True:
+        for command in commands:
+            if not run_command(command):
+                return
+
+        logger.info('All commands have been run. Slleping for 60 seconds')
+
+        time.sleep(60)
+
+
+if __name__ == '__main__':
+    run_commands_indefinitely()

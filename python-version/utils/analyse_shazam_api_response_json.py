@@ -8,21 +8,15 @@ from typing import Optional, Dict, Any
 import psycopg2
 from psycopg2.extras import DictCursor
 
-from dotenv import load_dotenv
-
 from logging_config import configure_logger
+from env_config import env_config
 
-# Load environment variables from .env file
-load_dotenv()
-
-# Get database URL from environment variables
-DATABASE_URL = os.getenv('DATABASE_URL')
 
 logger = configure_logger()
 
 
 def get_db_connection():
-    return psycopg2.connect(DATABASE_URL)
+    return psycopg2.connect(env_config.database_url)
 
 
 def extract_shazam_sound_id(url):
@@ -130,7 +124,8 @@ def update_shazam_info(data):
                                     THEN tiktok_sound_last_checked_by_shazam_with_no_result 
                                     ELSE %s
                             END,
-                            tiktok_sound_fetch_shazam_tries = tiktok_sound_fetch_shazam_tries + 1        
+                            tiktok_sound_fetch_shazam_tries = tiktok_sound_fetch_shazam_tries + 1,
+                            tiktok_sound_fetch_shazam_status = 0
                             WHERE tiktok_sound_id = %s AND shazamsounds_id IS NULL;
                         """
 
@@ -240,14 +235,11 @@ def analyse_shazam_api_response_json():
     logger.info('Start analyzing Shazam API response JSON')
 
     # Load the JSON data from the file with UTF-8 encoding
-    shazam_api_response_path = os.getenv('SHAZAM_API_RESPONSE_PATH')
+    shazam_api_response_path = env_config.shazam_api_response_path
     with open(shazam_api_response_path, 'r', encoding='utf-8') as file:
         data = json.load(file)
 
     update_shazam_info(data)
-
-    # Clean the sounds directory
-    #clean_sounds_directory(os.getenv('SOUNDS_DIR'))
 
 
 if __name__ == '__main__':

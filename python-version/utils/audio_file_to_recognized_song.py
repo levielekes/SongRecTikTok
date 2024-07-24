@@ -9,8 +9,8 @@ from json import dumps
 from os.path import dirname, realpath, join
 from pydub import AudioSegment
 
-from dotenv import load_dotenv
 from logging_config import configure_logger
+from env_config import env_config
 
 UTILS_DIR = realpath(dirname(__file__))
 SCRIPT_DIR = dirname(realpath(__file__))
@@ -22,12 +22,9 @@ from algorithm import SignatureGenerator
 from communication import recognize_song_from_signature
 
 
-load_dotenv()
-
 logger = configure_logger()
 
 # Correct SOUNDS_DIR path
-SOUNDS_DIR = os.getenv('SOUNDS_DIR', join(ROOT_DIR, 'sounds'))
 MAX_REQUESTS_PER_UNIT_OF_TIME = 5
 
 
@@ -46,6 +43,7 @@ class RateLimiter:
 
     def reset(self):
         self.current_requests = 0
+
 
 def process_audio_file(file_path: str, rate_limiter: RateLimiter):
     try:
@@ -115,17 +113,18 @@ def process_audio_file(file_path: str, rate_limiter: RateLimiter):
 
 
 def main():
-    json_output_path = os.getenv('SHAZAM_API_RESPONSE_PATH', join(SCRIPT_DIR, 'shazam_api_response.json'))
+    json_output_path = env_config.shazam_api_response_path
 
-    # Clean the JSON file by opening it in write mode and closing it immediately
-    with open(json_output_path, 'w', encoding='utf-8') as json_file:
-        json.dump([], json_file)
+    if not os.path.exists(json_output_path):
+        # Clean the JSON file by opening it in write mode and closing it immediately
+        with open(json_output_path, 'w', encoding='utf-8') as json_file:
+            json.dump([], json_file)
 
     rate_limiter = RateLimiter()
 
-    for file_name in os.listdir(SOUNDS_DIR):
+    for file_name in os.listdir(env_config.sounds_dir):
         if file_name.endswith('.wav') or file_name.endswith('.mp3'):
-            file_path = join(SOUNDS_DIR, file_name)
+            file_path = join(env_config.sounds_dir, file_name)
             logger.info('Processing file: %s', file_path)
 
             file_path, result = process_audio_file(file_path, rate_limiter)

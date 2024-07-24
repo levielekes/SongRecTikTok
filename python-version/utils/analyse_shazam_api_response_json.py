@@ -241,6 +241,9 @@ def analyse_shazam_api_response_json():
 
     update_shazam_info(data)
 
+    with open(shazam_api_response_path, 'w', encoding='utf-8') as json_file:
+        json.dump([], json_file)
+
 
 if __name__ == '__main__':
     analyse_shazam_api_response_json()

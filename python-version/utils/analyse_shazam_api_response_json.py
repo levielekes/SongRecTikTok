@@ -111,7 +111,7 @@ def update_shazam_info(data):
                                 shazam_sound_id, shazam_label_name, shazam_play_url)
 
                     # Check if any of the required fields are missing
-                    if not all([shazam_image_url, shazam_name_of_sound, shazam_sound_id, shazam_play_url]):
+                    if not all([shazam_image_url, shazam_name_of_sound, shazam_sound_id]):
                         logger.info('Missing required Shazam data, skipping insert.')
                         # Log missing items and continue to the next item
 

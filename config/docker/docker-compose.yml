@@ -7,10 +7,14 @@ services:
       dockerfile: config/docker/Dockerfile
     image: viorelnanaured/songrectiktok:${DOCKER_TAG}
     container_name: songrec-tiktok
+    restart: always
+    command: ["bash", "-c", "./python-version/scripts/start_command.sh"]
     volumes:
       - .env.app:/app/.env
       - app_data:/app/data
       - logs:/var/log/songrectiktok/
+    environment:
+      - VPN_ENABLED=${VPN_ENABLED}
     extra_hosts:
     - "host.docker.internal:host-gateway"  
     networks:

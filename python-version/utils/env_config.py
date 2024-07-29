@@ -6,21 +6,23 @@ class EnvConfig:
     def __init__(self):
         load_dotenv()
 
-        self._database_url = None
+        self._config = {}
         self._download_dir = None
-        self._shazam_api_response_path = None
-        self._sounds_dir = None
-        self._limit_tiktok_sounds_to_fetch = None
+
+    def _get_env_var(self, var_name, default=None, required=False, cast_type=str):
+        """Retrieve and cache environment variables."""
+        if var_name not in self._config:
+            value = os.getenv(var_name, default)
+
+            if required and not value:
+                raise ValueError(f'{var_name} environment variable not set')
+            self._config[var_name] = cast_type(value) if value else value
+
+        return self._config[var_name]
 
     @property
     def database_url(self):
-        if self._database_url is None:
-            self._database_url = os.getenv('DATABASE_URL')
-
-            if not self._database_url:
-                raise ValueError('DATABASE_URL environment variable not set')
-
-        return self._database_url
+        return self._get_env_var('DATABASE_URL', required=True)
 
     @property
     def download_dir(self):
@@ -33,20 +35,19 @@ class EnvConfig:
 
     @property
     def shazam_api_response_path(self):
-        if self._shazam_api_response_path is None:
-            self._shazam_api_response_path = os.getenv('SHAZAM_API_RESPONSE_PATH')
-
-            if not self._shazam_api_response_path:
-                raise ValueError('SHAZAM_API_RESPONSE_PATH environment variable not set')
-
-        return self._shazam_api_response_path
+        return self._get_env_var('SHAZAM_API_RESPONSE_PATH', required=True)
 
     @property
     def limit_tiktok_sounds_to_fetch(self):
-        if self._limit_tiktok_sounds_to_fetch is None:
-            self._limit_tiktok_sounds_to_fetch = os.getenv('TIKTOK_SOUNDS_TO_FETCH_LIMIT', '4000')
+        return self._get_env_var('TIKTOK_SOUNDS_TO_FETCH_LIMIT', 4000, cast_type=int)
 
-        return self._limit_tiktok_sounds_to_fetch
+    @property
+    def max_requests_before_rate_limit_reached(self):
+        return self._get_env_var('SHAZAM_MAX_REQUESTS_BEFORE_RATE_LIMIT_REACHED', 5, cast_type=int)
+
+    @property
+    def sleep_time_after_rate_limit_reached(self):
+        return self._get_env_var('SHAZAM_SLEEP_TIME_AFTER_RATE_LIMIT_REACHED', 60, cast_type=int)
 
 
 env_config = EnvConfig()

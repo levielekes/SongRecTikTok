@@ -120,7 +120,7 @@ def update_shazam_info(data):
                         update_query_no_result = """
                             UPDATE public.sounds_data_tiktoksounds
                             SET tiktok_sound_last_checked_by_shazam_with_no_result = 
-                            CASE    WHEN (tiktok_sound_fetch_shazam_tries + 1) %% 3 = 0 
+                            CASE    WHEN (tiktok_sound_fetch_shazam_tries + 1) %% 3 = 0  
                                     THEN tiktok_sound_last_checked_by_shazam_with_no_result 
                                     ELSE %s
                             END,

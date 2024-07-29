@@ -24,15 +24,12 @@ from communication import recognize_song_from_signature
 
 logger = configure_logger()
 
-# Correct SOUNDS_DIR path
-MAX_REQUESTS_PER_UNIT_OF_TIME = 5
-
 
 class RateLimiter:
-    def __init__(self, max_requests_per_unit=MAX_REQUESTS_PER_UNIT_OF_TIME):
+    def __init__(self, max_requests_per_unit=env_config.max_requests_before_rate_limit_reached):
         self.max_requests_per_unit = max_requests_per_unit
         self.current_requests = 0
-        self.max_time_unit = 60
+        self.max_time_unit = env_config.sleep_time_after_rate_limit_reached
 
     def increment(self):
         self.current_requests += 1

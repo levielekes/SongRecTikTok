@@ -15,6 +15,10 @@ services:
     - "host.docker.internal:host-gateway"  
     networks:
       - songrec-network
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun
 
 volumes:
   app_data:

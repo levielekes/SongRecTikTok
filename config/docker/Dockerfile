@@ -6,7 +6,20 @@ RUN apt-get update
 RUN apt install -y libportaudio2 ffmpeg
 
 # Install less and nano for debugging
-RUN apt install less nano -y
+RUN apt install -y \
+    sudo \
+    less \
+    nano \
+    expect \
+    openvpn \
+    unzip \
+    wget
+
+RUN mkdir -p /etc/openvpn/surfshark-config \
+    && cd /etc/openvpn/surfshark-config \
+    && wget https://my.surfshark.com/vpn/api/v1/server/configurations \
+    && unzip configurations \
+    && rm configurations
 
 # Set the environment variables
 ENV VIRTUAL_ENV=/opt/venv
@@ -27,7 +40,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 WORKDIR /app
 
 # Copy the application
-COPY ./python-version /app
+COPY ./python-version /app/python-version
 
 # Copy the environment file
 COPY .env.template.txt .env

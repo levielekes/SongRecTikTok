@@ -122,9 +122,9 @@ def main():
 
     rate_limiter = RateLimiter()
 
-    for file_name in os.listdir(env_config.sounds_dir):
+    for file_name in os.listdir(env_config.download_dir):
         if file_name.endswith('.wav') or file_name.endswith('.mp3'):
-            file_path = join(env_config.sounds_dir, file_name)
+            file_path = join(env_config.download_dir, file_name)
             logger.info('Processing file: %s', file_path)
 
             file_path, result = process_audio_file(file_path, rate_limiter)

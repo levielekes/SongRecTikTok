@@ -63,7 +63,7 @@ def fetch_tiktok_play_urls():
                             AND sounds_data_tiktoksounds.shazamsounds_id IS NULL 
                             AND (
                                 tiktok_sound_last_checked_by_shazam_with_no_result IS NULL 
-                                OR tiktok_sound_last_checked_by_shazam_with_no_result <= current_date - INTERVAL '14 days'
+                                OR tiktok_sound_last_checked_by_shazam_with_no_result <= current_date - INTERVAL '10 days'
                             )
                             AND sounds_data_tiktoksoundidsdailytotalvideocount.tiktok_total_video_count >= 50                                            
                     ORDER BY RANDOM()

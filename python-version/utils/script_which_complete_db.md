@@ -1,0 +1,2 @@
+1. OR tiktok_sound_last_checked_by_shazam_with_no_result <= current_date - INTERVAL '14 days' 
+I modified this interval from 14 to 10, because I got some TikTok Sounds, for example parts of "Eneli - Ileană, Ileană", which should have, but wasn't recognized and didn't have an equivalent song, because it was released in a timeframe of 10 days from the first scan. 10 days seems alright for now, checking each song 3 times per month. Seems to be too rare this way too, but let's find other examples which to prove that.

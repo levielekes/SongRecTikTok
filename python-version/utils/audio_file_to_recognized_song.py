@@ -52,8 +52,8 @@ def process_audio_file(file_path: str, rate_limiter: RateLimiter):
         signature_generator = SignatureGenerator()
         signature_generator.feed_input(audio.get_array_of_samples())
 
-        signature_generator.MAX_TIME_SECONDS = 12
-        if audio.duration_seconds > 12 * 3:
+        signature_generator.MAX_TIME_SECONDS = 16
+        if audio.duration_seconds > 16 * 3:
             signature_generator.samples_processed += 16000 * (int(audio.duration_seconds / 2) - 6)
 
         results = '(Not enough data)'

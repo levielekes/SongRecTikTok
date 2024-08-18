@@ -6,3 +6,5 @@
 
 4. How to install on Linux/Windows: https://docs.google.com/document/d/1pmJKLgX5FNA-K2KcdYnJ_PzjgTbNOFkXG8mH8JsSa50/edit
 - If issue appear that couldn't connect to db, but in other machines work, try deactivating the VPN and test like that. If works, probably another faster country should be selected on VPN.
+
+5. What did we try on VPNs/how to set up VPN properly: https://docs.google.com/document/d/1orvdfSovxJksWHwQdEnf14j0R47t7ujILJcwsCbAj-g/edit

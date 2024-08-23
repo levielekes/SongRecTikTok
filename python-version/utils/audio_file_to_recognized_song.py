@@ -49,19 +49,18 @@ def recognize(signature_generator, rate_limiter):
     results = '(Not enough data)'
 
     while True:
-        rate_limiter.increment()
-
         signature = signature_generator.get_next_signature()
         if not signature:
             break
 
         results = recognize_song_from_signature(signature)
+        # Increment the rate limiter counter after getting the response
+        rate_limiter.increment()
 
         if results.get('error', None):
             status_code = results.get('status_code', None)
             if status_code == 429:
                 logger.info('Rate limit reached, waiting for %s seconds...', rate_limiter.max_time_unit)
-                logger.info('Results: %s', dumps(results, indent=4, ensure_ascii=False))
                 time.sleep(rate_limiter.max_time_unit)
                 rate_limiter.reset()
                 continue
@@ -75,21 +74,10 @@ def recognize(signature_generator, rate_limiter):
         if results.get('retryms', None):
             retry_time_ms = results['retryms']
             logger.info('[Note: No matching songs found, retrying in %d ms...]', retry_time_ms)
-            logger.info('Results: %s', dumps(results, indent=4, ensure_ascii=False))
             time.sleep(retry_time_ms / 1000)
-
-            rate_limiter.increment()
-            results = recognize_song_from_signature(signature)
-
-            if results.get('error', None):
-                logger.error('Error recognizing song: %s', results['error'])
-                break
-            if results.get('matches', []):
-                break
         else:
             logger.info('[Note: No matching songs for the first %g seconds, trying to recognize more input... ]',
                         signature_generator.samples_processed / 16000)
-            logger.info('Results: %s', dumps(results, indent=4, ensure_ascii=False))
 
     return results
 
@@ -170,3 +158,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+

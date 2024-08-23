@@ -96,10 +96,10 @@ def recognize(signature_generator, rate_limiter):
 def process_audio_file(file_path: str, rate_limiter: RateLimiter):
     try:
         audio = AudioSegment.from_file(file_path)
+        audio_processed = preprocess_audio(audio)
 
         def first_attempt():
             logger.info("Running first attempt...")
-            audio_processed = preprocess_audio(audio)
             signature_generator = SignatureGenerator()
             signature_generator.feed_input(audio_processed.get_array_of_samples())
             signature_generator.MAX_TIME_SECONDS = 16
@@ -107,7 +107,6 @@ def process_audio_file(file_path: str, rate_limiter: RateLimiter):
 
         def second_attempt():
             logger.info("Running second attempt...")
-            audio_processed = preprocess_audio(audio)
             signature_generator = SignatureGenerator()
             signature_generator.feed_input(audio_processed.get_array_of_samples())
             signature_generator.MAX_TIME_SECONDS = 16
@@ -120,20 +119,20 @@ def process_audio_file(file_path: str, rate_limiter: RateLimiter):
             start_time_ms = 7000  # 7000 milliseconds = 7 seconds
             if len(audio) > start_time_ms:
                 audio_trimmed = audio[start_time_ms:]
+                audio_processed_trimmed = preprocess_audio(audio_trimmed)
+                signature_generator = SignatureGenerator()
+                signature_generator.feed_input(audio_processed_trimmed.get_array_of_samples())
+                signature_generator.MAX_TIME_SECONDS = 16
+                return recognize(signature_generator, rate_limiter)
             else:
-                audio_trimmed = audio
-            
-            audio_processed = preprocess_audio(audio_trimmed)
-            signature_generator = SignatureGenerator()
-            signature_generator.feed_input(audio_processed.get_array_of_samples())
-            signature_generator.MAX_TIME_SECONDS = 16
-            return recognize(signature_generator, rate_limiter)
+                logger.info("Audio too short for third attempt, skipping...")
+                return {'matches': []} 
 
         # Run all three attempts
         results = first_attempt()
-        if not results.get('matches'):
+        if not results.get('matches') and audio_processed.duration_seconds > 16 * 3:
             results = second_attempt()
-        if not results.get('matches'):
+        if not results.get('matches') and len(audio) > 7000:  # Only attempt if audio is longer than 7 seconds
             results = third_attempt()
 
         return file_path, results
@@ -171,4 +170,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-

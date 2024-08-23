@@ -11,18 +11,17 @@ from psycopg2.extras import DictCursor
 from logging_config import configure_logger
 from env_config import env_config
 
+# Constants
+BLOCKED_KEYWORDS_NOT_TO_REGISTER_SOUND_IN_DB = ["Arewa Trend Music", "DJ SU LAMA DEKAT", "Astercalm"]
 
 logger = configure_logger()
-
 
 def get_db_connection():
     return psycopg2.connect(env_config.database_url)
 
-
 def extract_shazam_sound_id(url):
     match = re.search(r'(?:track|song)/(\d+)', url)
     return match.group(1) if match else None
-
 
 def get_shazam_label_name(track_info: Dict[str, Any]) -> Optional[str]:
     sections = track_info.get('sections', [])
@@ -48,7 +47,6 @@ def get_shazam_label_name(track_info: Dict[str, Any]) -> Optional[str]:
 
     return label_value
 
-
 def get_shazam_play_url(track_info: Dict[str, Any]) -> Optional[str]:
     hub_info = track_info.get('hub', {})
     actions = hub_info.get('actions', [])
@@ -59,7 +57,6 @@ def get_shazam_play_url(track_info: Dict[str, Any]) -> Optional[str]:
             return action.get('uri')
     return None
 
-
 def get_existing_labels(cursor):
     query = 'SELECT id, name FROM public.sounds_data_labels'
     cursor.execute(query)
@@ -69,7 +66,6 @@ def get_existing_labels(cursor):
         labels[record['name']] = record['id']
 
     return labels
-
 
 def update_shazam_info(data):
     try:
@@ -132,6 +128,11 @@ def update_shazam_info(data):
                         cursor.execute(update_query_no_result, (datetime.now(), tiktok_sound_id))
                         continue
 
+                    # Check if the result contains any of the specified keywords
+                    if any(keyword in str(result) for keyword in BLOCKED_KEYWORDS_NOT_TO_REGISTER_SOUND_IN_DB):
+                        logger.info(f"Skipping update for tiktok_sound_id {tiktok_sound_id} due to blocked keyword match.")
+                        continue
+
                     try:
                         shazamsounds_id = create_or_update_shazam_sound(
                             cursor, shazam_sound_id, shazam_image_url, shazam_name_of_sound, shazam_label_name,
@@ -161,7 +162,6 @@ def update_shazam_info(data):
     except Exception as e:
         logger.error('Error while updating Shazam info: %s', e, exc_info=True)
 
-
 def get_or_create_label(cursor, label_name, existing_labels):
     if not label_name:
         return None
@@ -180,7 +180,6 @@ def get_or_create_label(cursor, label_name, existing_labels):
         existing_labels[label_name] = label_id
 
     return label_id
-
 
 def create_or_update_shazam_sound(
     cursor, shazam_sound_id, shazam_image_url, shazam_name_of_sound,
@@ -219,7 +218,6 @@ def create_or_update_shazam_sound(
 
     return shazamsounds_id
 
-
 def clean_sounds_directory(directory_path):
     try:
         for filename in os.listdir(directory_path):
@@ -229,7 +227,6 @@ def clean_sounds_directory(directory_path):
         logger.info('Cleaned all files in directory: %s', directory_path)
     except Exception as e:
         logger.error('Error while cleaning directory: %s', e, exc_info=True)
-
 
 def analyse_shazam_api_response_json():
     logger.info('Start analyzing Shazam API response JSON')
@@ -243,7 +240,6 @@ def analyse_shazam_api_response_json():
 
     with open(shazam_api_response_path, 'w', encoding='utf-8') as json_file:
         json.dump([], json_file)
-
 
 if __name__ == '__main__':
     analyse_shazam_api_response_json()

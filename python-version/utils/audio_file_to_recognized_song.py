@@ -41,7 +41,7 @@ class RateLimiter:
 
 def preprocess_audio(audio):
     audio = audio.set_sample_width(2)
-    audio = audio.set_frame_rate(44100)
+    audio = audio.set_frame_rate(16000)
     audio = audio.set_channels(1)
     return audio
 
@@ -171,3 +171,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+

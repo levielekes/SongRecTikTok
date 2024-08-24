@@ -48,25 +48,16 @@ def fetch_tiktok_play_urls():
                         sounds_data_shazamsounds 
                     ON 
                         sounds_data_tiktoksounds.shazamsounds_id = sounds_data_shazamsounds.id 
-                    LEFT JOIN (
-                        SELECT tiktoksounds_id, MAX(date) as max_date
-                        FROM sounds_data_tiktoksoundidsdailytotalvideocount
-                        GROUP BY tiktoksounds_id
-                    ) latest_v ON sounds_data_tiktoksounds.id = latest_v.tiktoksounds_id
-                    LEFT JOIN sounds_data_tiktoksoundidsdailytotalvideocount 
-                    ON 
-                        latest_v.tiktoksounds_id = sounds_data_tiktoksoundidsdailytotalvideocount.tiktoksounds_id 
-                        AND latest_v.max_date = sounds_data_tiktoksoundidsdailytotalvideocount.date
                     WHERE
-                            sounds_data_tiktoksounds.tiktok_sound_fetch_shazam_status = 0
-                            AND sounds_data_tiktoksounds.status = 0
-                            AND sounds_data_tiktoksounds.shazamsounds_id IS NULL 
-                            AND (
-                                tiktok_sound_last_checked_by_shazam_with_no_result IS NULL 
-                                OR tiktok_sound_last_checked_by_shazam_with_no_result <= current_date - INTERVAL '10 days'
-                            )
-                            AND sounds_data_tiktoksoundidsdailytotalvideocount.tiktok_total_video_count >= 50                                            
-                    ORDER BY RANDOM()
+                        sounds_data_tiktoksounds.tiktok_sound_fetch_shazam_status = 0
+                        AND sounds_data_tiktoksounds.status = 0
+                        AND sounds_data_tiktoksounds.shazamsounds_id IS NULL 
+                        AND (
+                            tiktok_sound_last_checked_by_shazam_with_no_result IS NULL 
+                            OR tiktok_sound_last_checked_by_shazam_with_no_result <= current_date - INTERVAL '10 days'
+                        )
+                        AND sounds_data_tiktoksounds.tiktok_total_video_count >= 50                                            
+                    ORDER BY sounds_data_tiktoksounds.tiktok_total_video_count DESC
                     LIMIT %s
                 )
                 RETURNING id, tiktok_play_url, tiktok_sound_id;

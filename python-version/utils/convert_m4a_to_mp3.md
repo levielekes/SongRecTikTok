@@ -1,0 +1,1 @@
+1. Why we cut sounds and how this interfere with recognition: https://docs.google.com/document/d/1eaCKblfWsqEKHtnx8XCFO5tixSVOBDcV9JbVYyycmsw 

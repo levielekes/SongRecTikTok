@@ -6,7 +6,7 @@ logger = configure_logger()
 
 commands = [
     'python3 python-version/utils/script_which_complete_db.py',
-    'python3 python-version/utils/convert_m4a_to_mp3.py',
+    'python3 python-version/utils/convert_m4a_to_mp3_and_cut_audio.py',
     'python3 python-version/utils/audio_file_to_recognized_song.py',
     'python3 python-version/utils/analyse_shazam_api_response_json.py',
 ]

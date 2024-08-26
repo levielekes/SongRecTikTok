@@ -1,0 +1,1 @@
+VPN Settings: https://docs.google.com/document/d/1j-Iwby8Tp8IHy2GZWQNMS2fCj146aQ7YWq8bXuQJpd0/edit 

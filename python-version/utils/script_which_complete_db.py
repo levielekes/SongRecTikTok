@@ -55,8 +55,7 @@ def fetch_tiktok_play_urls():
                         AND (
                             tiktok_sound_last_checked_by_shazam_with_no_result IS NULL 
                             OR tiktok_sound_last_checked_by_shazam_with_no_result <= current_date - INTERVAL '10 days'
-                        )
-                        AND sounds_data_tiktoksounds.tiktok_total_video_count >= 50                                            
+                        )                                          
                     ORDER BY sounds_data_tiktoksounds.tiktok_total_video_count DESC
                     LIMIT %s
                 )

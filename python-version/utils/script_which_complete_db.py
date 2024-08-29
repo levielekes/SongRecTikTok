@@ -55,14 +55,16 @@ def fetch_tiktok_play_urls():
                         AND (
                             tiktok_sound_last_checked_by_shazam_with_no_result IS NULL 
                             OR tiktok_sound_last_checked_by_shazam_with_no_result <= current_date - INTERVAL '10 days'
-                        )                                          
+                        )
+                        AND sounds_data_tiktoksounds.tiktok_play_url NOT LIKE '%%https://v16-webapp-prime.tiktok.com%%'
+                        AND sounds_data_tiktoksounds.tiktok_play_url NOT LIKE '%%https://v19-webapp-prime.tiktok.com%%'
                     ORDER BY sounds_data_tiktoksounds.tiktok_total_video_count DESC
                     LIMIT %s
                 )
                 RETURNING id, tiktok_play_url, tiktok_sound_id;
                 '''
 
-                cursor.execute(query, (StatusFetchShazam.IN_PROGRESS, env_config.limit_tiktok_sounds_to_fetch,))
+                cursor.execute(query, (StatusFetchShazam.IN_PROGRESS, env_config.limit_tiktok_sounds_to_fetch))
                 connection.commit()
                 # Fetch all rows
                 rows = cursor.fetchall()

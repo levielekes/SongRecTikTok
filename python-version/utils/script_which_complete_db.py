@@ -58,6 +58,7 @@ def fetch_tiktok_play_urls():
                         )
                         AND sounds_data_tiktoksounds.tiktok_play_url NOT LIKE '%%https://v16-webapp-prime.tiktok.com%%'
                         AND sounds_data_tiktoksounds.tiktok_play_url NOT LIKE '%%https://v19-webapp-prime.tiktok.com%%'
+                        AND sounds_data_tiktoksounds.tiktok_play_url NOT LIKE '%%https://v16-ies-music%%'
                     ORDER BY sounds_data_tiktoksounds.tiktok_total_video_count DESC
                     LIMIT %s
                 )

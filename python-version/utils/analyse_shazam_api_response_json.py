@@ -12,7 +12,7 @@ from logging_config import configure_logger
 from env_config import env_config
 
 # Constants
-BLOCKED_KEYWORDS_NOT_TO_REGISTER_SOUND_IN_DB = ["Arewa Trend Music", "DJ SU LAMA DEKAT", "Astercalm", "DJ MAS"]
+BLOCKED_KEYWORDS_NOT_TO_REGISTER_SOUND_IN_DB = ["Arewa Trend Music", "DJ SU LAMA DEKAT", "Astercalm", "DJ MAS", "NY Latino Party Time", "Far Away - Juliane Wolf"]
 
 logger = configure_logger()
 

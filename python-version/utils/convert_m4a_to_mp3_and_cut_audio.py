@@ -1,10 +1,15 @@
 import os
 import os.path
+import time
+import tempfile
 from pydub import AudioSegment
+from pyffmpeg import FFmpeg
 from logging_config import configure_logger
 from env_config import env_config
 
 logger = configure_logger()
+DELAY_MS = 200
+ff = FFmpeg()
 
 def trim_audio(audio, max_duration_ms=14000):
     """Trim audio to the specified duration if it's longer."""
@@ -24,31 +29,52 @@ def process_audio(audio, target_duration_ms=14000):
     if current_duration < target_duration_ms:
         repetitions = target_duration_ms // current_duration + 1
         audio = audio * repetitions
-
+    
     # Step 2: Trim to exactly target duration
     return trim_audio(audio, target_duration_ms)
 
-# Convert non-MP3 files to MP3, process audio, and move them to the destination directory
+def apply_audio_delay(input_file, output_file, delay_ms):
+    start_time = time.time()
+    with tempfile.NamedTemporaryFile(suffix=".mp3", delete=False) as temp_file:
+        temp_path = temp_file.name
+    
+    filter_complex = f"[0:a]adelay=0|{delay_ms}[aout]"
+    ff.options(
+        f'-i "{input_file}" -filter_complex "{filter_complex}" -map "[aout]" "{temp_path}"'
+    )
+    
+    # Move the temp file to the output file
+    os.replace(temp_path, output_file)
+    
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    logger.info(f"Audio delay applied in {elapsed_time:.2f} seconds")
+
+# Main processing loop
 for filename in os.listdir(env_config.download_dir):
     # Define the full path for the source file
     source_path = os.path.join(env_config.download_dir, filename)
-
+    
     # Define the full path for the destination file
     base, ext = os.path.splitext(filename)
     destination_path = os.path.join(env_config.download_dir, f"{base}.mp3")
-
+    
     logger.info('Processing file: %s', filename)
     
-    # Load the audio file
-    audio = AudioSegment.from_file(source_path)
+    # Step 1: Apply audio delay
+    apply_audio_delay(source_path, destination_path, DELAY_MS)
     
+    # Step 2: Load the delayed audio file
+    audio = AudioSegment.from_file(destination_path)
+    
+    # Step 3: Process audio (repeat and trim)
     processed_audio = process_audio(audio)
     
-    # Export as MP3
+    # Step 4: Export as MP3 (overwriting the delayed file)
     processed_audio.export(destination_path, format='mp3')
-
-    # Remove the original file if it's not already an MP3
-    if ext.lower() != '.mp3':
+    
+    # Step 5: Remove the original file if it's not already an MP3
+    if ext.lower() != '.mp3' and source_path != destination_path:
         os.remove(source_path)
 
 logger.info('Processing complete and files moved.')

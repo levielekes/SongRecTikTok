@@ -50,6 +50,12 @@ def apply_audio_delay(input_file, output_file, delay_ms):
     elapsed_time = end_time - start_time
     logger.info(f"Audio delay applied in {elapsed_time:.2f} seconds")
 
+def convert_to_mp3(input_file, output_file):
+    """Convert audio file to MP3 format."""
+    audio = AudioSegment.from_file(input_file)
+    audio.export(output_file, format='mp3')
+    logger.info(f"Converted {input_file} to MP3")
+
 # Main processing loop
 for filename in os.listdir(env_config.download_dir):
     # Define the full path for the source file
@@ -61,20 +67,28 @@ for filename in os.listdir(env_config.download_dir):
     
     logger.info('Processing file: %s', filename)
     
-    # Step 1: Apply audio delay
-    apply_audio_delay(source_path, destination_path, DELAY_MS)
+    # Step 1: Convert to MP3 if not already in MP3 format
+    if ext.lower() != '.mp3':
+        convert_to_mp3(source_path, destination_path)
+        # Remove the original file after conversion
+        os.remove(source_path)
+    else:
+        destination_path = source_path
+
+    # Step 2: Apply audio delay
+    delayed_path = os.path.join(env_config.download_dir, f"{base}_delayed.mp3")
+    apply_audio_delay(destination_path, delayed_path, DELAY_MS)
     
-    # Step 2: Load the delayed audio file
-    audio = AudioSegment.from_file(destination_path)
+    # Step 3: Load the delayed audio file
+    audio = AudioSegment.from_file(delayed_path)
     
-    # Step 3: Process audio (repeat and trim)
+    # Step 4: Process audio (repeat and trim)
     processed_audio = process_audio(audio)
     
-    # Step 4: Export as MP3 (overwriting the delayed file)
+    # Step 5: Export as MP3 (overwriting the delayed file)
     processed_audio.export(destination_path, format='mp3')
     
-    # Step 5: Remove the original file if it's not already an MP3
-    if ext.lower() != '.mp3' and source_path != destination_path:
-        os.remove(source_path)
+    # Remove the temporary delayed file
+    os.remove(delayed_path)
 
 logger.info('Processing complete and files moved.')

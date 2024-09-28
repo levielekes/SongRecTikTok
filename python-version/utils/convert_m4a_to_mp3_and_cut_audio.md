@@ -1,1 +1,2 @@
 1. Why we cut sounds and how this interfere with recognition: https://docs.google.com/document/d/1eaCKblfWsqEKHtnx8XCFO5tixSVOBDcV9JbVYyycmsw 
+2. Why we first cut the audio and after add the delay: https://docs.google.com/document/d/1tNyltU3ECTIvmTN0gZUs0IZ-DGo0UY290_hyVvaZiIs/edit

@@ -1,6 +1,5 @@
 import os
 import os.path
-import time
 import tempfile
 from pydub import AudioSegment
 from pyffmpeg import FFmpeg
@@ -34,7 +33,6 @@ def process_audio(audio, target_duration_ms=14000):
     return trim_audio(audio, target_duration_ms)
 
 def apply_audio_delay(input_file, output_file, delay_ms):
-    start_time = time.time()
     with tempfile.NamedTemporaryFile(suffix=".mp3", delete=False) as temp_file:
         temp_path = temp_file.name
     
@@ -45,10 +43,6 @@ def apply_audio_delay(input_file, output_file, delay_ms):
     
     # Move the temp file to the output file
     os.replace(temp_path, output_file)
-    
-    end_time = time.time()
-    elapsed_time = end_time - start_time
-    logger.info(f"Audio delay applied in {elapsed_time:.2f} seconds")
 
 def convert_to_mp3(input_file, output_file):
     """Convert audio file to MP3 format."""

@@ -1,4 +1,5 @@
 import os
+import socket
 from dotenv import load_dotenv
 
 
@@ -48,6 +49,10 @@ class EnvConfig:
     @property
     def sleep_time_after_rate_limit_reached(self):
         return self._get_env_var('SHAZAM_SLEEP_TIME_AFTER_RATE_LIMIT_REACHED', 60, cast_type=int)
+
+    @property
+    def handler_code(self):
+        return self._get_env_var('HANDLER_CODE', socket.gethostname(), cast_type=str)
 
 
 env_config = EnvConfig()

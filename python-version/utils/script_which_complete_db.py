@@ -31,7 +31,9 @@ def fetch_tiktok_play_urls():
             with connection.cursor(cursor_factory=DictCursor) as cursor:
                 query = '''
                 UPDATE sounds_data_tiktoksounds
-                SET tiktok_sound_fetch_shazam_status = %s
+                SET tiktok_sound_fetch_shazam_status = %s,
+                    handler_fetching_shazam = %s,
+                    handler_fetching_shazam_started_at = now()
                 WHERE id IN (
                     SELECT 
                         sounds_data_tiktoksounds.id
@@ -65,7 +67,9 @@ def fetch_tiktok_play_urls():
                 RETURNING id, tiktok_play_url, tiktok_sound_id;
                 '''
 
-                cursor.execute(query, (StatusFetchShazam.IN_PROGRESS, env_config.limit_tiktok_sounds_to_fetch))
+                cursor.execute(query, (StatusFetchShazam.IN_PROGRESS,
+                                       env_config.handler_code,
+                                       env_config.limit_tiktok_sounds_to_fetch))
                 connection.commit()
                 # Fetch all rows
                 rows = cursor.fetchall()

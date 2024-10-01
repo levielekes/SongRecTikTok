@@ -1,1 +1,2 @@
 1. For some tracks, play URL is not returned. Example of response: https://docs.google.com/document/d/1qAfqG2bkQjn-gDxUrwQBrGwAhTh7DVajCTQh3hNG51A/edit
+2. Documentation of rate limit: https://docs.google.com/document/d/15c4E1MZqf4bP1_LJY3zmOc4sqOh1fBH2uzwucJhOFPc/edit

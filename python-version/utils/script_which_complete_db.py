@@ -1,20 +1,13 @@
 import os
-from enum import IntEnum
 import psycopg2
 import requests
 
 from psycopg2.extras import DictCursor
 from env_config import env_config
 from logging_config import configure_logger
-
+from helpers import StatusFetchShazam
 
 logger = configure_logger()
-
-
-class StatusFetchShazam(IntEnum):
-    NOT_FETCHED = 0
-    IN_PROGRESS = 1
-    DOWNLOADED = 2
 
 
 def update_tiktok_sound_fetch_shazam_status(connection, cursor: DictCursor, tiktok_sound_id: int, status: int):

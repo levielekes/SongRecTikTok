@@ -21,7 +21,9 @@ sys.path.append(FINGERPRINTING_DIR)
 from algorithm import SignatureGenerator
 from communication import recognize_song_from_signature
 
+
 logger = configure_logger()
+
 
 class RateLimiter:
     def __init__(self, max_requests_per_unit=env_config.max_requests_before_rate_limit_reached):
@@ -39,11 +41,13 @@ class RateLimiter:
     def reset(self):
         self.current_requests = 0
 
+
 def preprocess_audio(audio):
     audio = audio.set_sample_width(2)
     audio = audio.set_frame_rate(16000)
     audio = audio.set_channels(1)
     return audio
+
 
 def recognize(signature_generator, rate_limiter):
     results = '(Not enough data)'
@@ -59,7 +63,9 @@ def recognize(signature_generator, rate_limiter):
         if results.get('error', None):
             status_code = results.get('status_code', None)
             if status_code == 429:
-                logger.info('Rate limit reached, waiting for %s seconds...', rate_limiter.max_time_unit)
+                logger.info('Rate limit reached because 429 too many requests, waiting for %s seconds...',
+                            rate_limiter.max_time_unit)
+
                 time.sleep(rate_limiter.max_time_unit)
                 rate_limiter.reset()
                 continue
@@ -80,6 +86,7 @@ def recognize(signature_generator, rate_limiter):
 
     return results
 
+
 def process_audio_file(file_path: str, rate_limiter: RateLimiter):
     try:
         audio = AudioSegment.from_file(file_path)
@@ -96,6 +103,7 @@ def process_audio_file(file_path: str, rate_limiter: RateLimiter):
     except Exception as e:
         logger.error('Error processing file %s: %s', file_path, e, exc_info=True)
         return file_path, {"error": str(e)}
+
 
 def main():
     json_output_path = env_config.shazam_api_response_path
@@ -123,6 +131,7 @@ def main():
             os.remove(file_path)
 
     logger.info('All results have been saved to %s', json_output_path)
+
 
 if __name__ == '__main__':
     main()

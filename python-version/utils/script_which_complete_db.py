@@ -8,6 +8,23 @@ from logging_config import configure_logger
 from helpers import StatusFetchShazam
 
 logger = configure_logger()
+RESET_HANDLER_FETCHING_SHAZAM_STARTED_AFTER_NUMBER_OF_HOURS = 3
+
+
+def reset_handler_fetching_shazam(connection, cursor: DictCursor):
+    try:
+        query = '''
+        UPDATE  sounds_data_tiktoksounds
+        SET     handler_fetching_shazam = NULL,
+                handler_fetching_shazam_started_at = NULL
+        WHERE   handler_fetching_shazam_started_at < NOW() - INTERVAL '%s HOUR';
+        '''
+
+        cursor.execute(query, (RESET_HANDLER_FETCHING_SHAZAM_STARTED_AFTER_NUMBER_OF_HOURS, ))
+        connection.commit()
+    except Exception as error:
+        connection.rollback()
+        logger.error('Error updating data: %s', error, exc_info=True)
 
 
 def update_tiktok_sound_fetch_shazam_status(connection, cursor: DictCursor, tiktok_sound_id: int, status: int):
@@ -29,6 +46,8 @@ def fetch_tiktok_play_urls():
         with psycopg2.connect(env_config.database_url) as connection:
             # Create a new cursor using DictCursor to return rows as dictionaries
             with connection.cursor(cursor_factory=DictCursor) as cursor:
+                reset_handler_fetching_shazam(connection, cursor)
+
                 query = '''
                 UPDATE sounds_data_tiktoksounds
                 SET tiktok_sound_fetch_shazam_status = %s,
@@ -46,7 +65,8 @@ def fetch_tiktok_play_urls():
                     WHERE
                         sounds_data_tiktoksounds.tiktok_sound_fetch_shazam_status = 0
                         AND sounds_data_tiktoksounds.status = 0
-                        AND sounds_data_tiktoksounds.shazamsounds_id IS NULL 
+                        AND sounds_data_tiktoksounds.shazamsounds_id IS NULL
+                        AND sounds_data_tiktoksounds.handler_fetching_shazam IS NULL
                         AND (
                             tiktok_sound_last_checked_by_shazam_with_no_result IS NULL 
                             OR tiktok_sound_last_checked_by_shazam_with_no_result <= current_date - INTERVAL '10 days'

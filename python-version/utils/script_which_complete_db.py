@@ -16,7 +16,8 @@ def reset_handler_fetching_shazam(connection, cursor: DictCursor):
         query = '''
         UPDATE  sounds_data_tiktoksounds
         SET     handler_fetching_shazam = NULL,
-                handler_fetching_shazam_started_at = NULL
+                handler_fetching_shazam_started_at = NULL,
+                tiktok_sound_fetch_shazam_status = 0
         WHERE   handler_fetching_shazam_started_at < NOW() - INTERVAL '%s HOUR';
         '''
 

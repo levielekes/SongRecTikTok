@@ -17,7 +17,8 @@ from helpers import StatusFetchShazam
 BLOCKED_KEYWORDS_NOT_TO_REGISTER_SOUND_IN_DB = ["Arewa Trend Music", "DJ SU LAMA DEKAT",
                                                 "Astercalm", "DJ MAS",
                                                 "NY Latino Party Time",
-                                                "Far Away - Juliane Wolf"]
+                                                "Far Away - Juliane Wolf",
+                                                "Airflow - MegaPower"]
 
 logger = configure_logger()
 

@@ -81,7 +81,7 @@ def recognize(signature_generator, rate_limiter):
             logger.info('[Note: No matching songs found, retrying in %d ms...]', retry_time_ms)
             time.sleep(retry_time_ms / 1000)
         else:
-            logger.info('[Note: No matching songs for the first %g seconds, trying to recognize more input... ]',
+            logger.info('[Note: No matching songs for the first %g seconds]',
                         signature_generator.samples_processed / 16000)
 
     return results

@@ -18,7 +18,8 @@ BLOCKED_KEYWORDS_NOT_TO_REGISTER_SOUND_IN_DB = ["Arewa Trend Music", "DJ SU LAMA
                                                 "Astercalm", "DJ MAS",
                                                 "NY Latino Party Time",
                                                 "Far Away - Juliane Wolf",
-                                                "Airflow - MegaPower"]
+                                                "Airflow - MegaPower",
+                                                "Amurai Remix Amurai's los Angeles Mix"]
 
 logger = configure_logger()
 

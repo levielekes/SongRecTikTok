@@ -19,7 +19,10 @@ BLOCKED_KEYWORDS_NOT_TO_REGISTER_SOUND_IN_DB = ["Arewa Trend Music", "DJ SU LAMA
                                                 "NY Latino Party Time",
                                                 "Far Away - Juliane Wolf",
                                                 "Airflow - MegaPower",
-                                                "Amurai Remix Amurai's los Angeles Mix"]
+                                                "Amurai Remix Amurai's los Angeles Mix",
+                                                "Learning to Fly (Mike Koglin Remix) - Mothers Pride",
+                                                "Toccata and Fugue In D Minor, BWV 565 - Miklós Spányi & Silbermann"
+                                                ]
 
 logger = configure_logger()
 

@@ -23,6 +23,7 @@ BLOCKED_KEYWORDS_NOT_TO_REGISTER_SOUND_IN_DB = ["Arewa Trend Music", "DJ SU LAMA
                                                 "Learning to Fly (Mike Koglin Remix) - Mothers Pride",
                                                 "Toccata and Fugue In D Minor, BWV 565 - Miklós Spányi & Silbermann"
                                                 "We Are Mirage - Eric Prydz & Empire Of The Sun"
+                                                "Apollo - Thomas Schumacher & Victor Ruiz"
                                                 ]
 
 logger = configure_logger()

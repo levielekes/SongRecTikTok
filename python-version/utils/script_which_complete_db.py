@@ -81,7 +81,7 @@ def fetch_tiktok_play_urls():
                         AND sounds_data_tiktoksounds.tiktok_play_url NOT LIKE '%%https://v16m.tiktokcdn-eu.com/%%'
                         AND sounds_data_tiktoksounds.tiktok_play_url NOT LIKE '%%https://v77.tiktokcdn-eu.com/%%'
                         AND sounds_data_tiktoksounds.tiktok_play_url NOT LIKE '%%https://v58.tiktokcdn-eu.com%%'
-                        AND sounds_data_tiktoksounds.tiktok_total_video_count >= 2
+                        AND sounds_data_tiktoksounds.tiktok_total_video_count >= 1
                     ORDER BY sounds_data_tiktoksounds.tiktok_total_video_count DESC
                     LIMIT %s
                 )
